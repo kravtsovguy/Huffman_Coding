@@ -7,10 +7,10 @@
 //
 
 #include "huffman.h"
+#include <iostream>
+#include <fstream>
 #include <algorithm>
 #include <string>
-#include <fstream>
-#include <iostream>
 #include <map>
 #include <vector>
 using namespace std;
