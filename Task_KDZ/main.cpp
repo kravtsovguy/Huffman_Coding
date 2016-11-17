@@ -29,5 +29,6 @@ int main(int argc, const char * argv[]) {
     Shannon_Fano::decompress(s, s);
     
     cout << endl;
+     
     return 0;
 }

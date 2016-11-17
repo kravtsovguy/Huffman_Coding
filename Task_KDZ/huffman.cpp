@@ -13,6 +13,7 @@
 #include <streambuf>
 #include <iostream>
 #include <map>
+#include <vector>
 using namespace std;
 
 
@@ -203,7 +204,10 @@ void Huffman::make_freq()
         freq[i] = 0;
     
     for (int i = 0; i < content.size(); i++)
-        freq[content[i]]++;
+    {
+        unsigned char c = content[i];
+        freq[c]++;
+    }
     
     for (int i = 0; i < bsize; i++)
     {

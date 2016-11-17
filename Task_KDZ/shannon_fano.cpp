@@ -7,7 +7,7 @@
 //
 
 #include "shannon_fano.h"
-
+#include <vector>
 
 void Shannon_Fano::decompress(string inputFileName, string outputFileName)
 {
