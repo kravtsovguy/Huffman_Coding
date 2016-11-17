@@ -11,10 +11,8 @@
 #include <string>
 #include <fstream>
 #include <streambuf>
-#include <cerrno>
 #include <iostream>
 #include <map>
-#include <bitset>
 using namespace std;
 
 
@@ -23,8 +21,7 @@ vector<bool> string_to_bits(string s)
     vector<bool> v;
     for (int i = 0; i < s.size(); i++) {
         cout << (int)(unsigned char)s[i] << " ";
-        //bitset<8> b(s[i]);
-        int c = (int)(unsigned char)s[i];
+        char c = s[i];
         for (int j = 0; j < 8; j++)
         {
             int bit = (c >> (7 - j)) & 1;
@@ -42,16 +39,15 @@ string bits_to_string(vector<bool> bits)
     
     string res = "";
     
-    unsigned char currbyte = 0;
+    char currbyte = 0;
     int bitcount = 0;
     
     for (int i=0; i < bits.size(); i++) {
-        //int bit = bits[i] ? 1 : 0;
         currbyte = currbyte << 1 | bits[i];
         bitcount++;
         if (bitcount == 8)
         {
-            cout << (int)currbyte << " ";
+            cout << (int)(unsigned char)currbyte << " ";
             res += currbyte;
             bitcount = 0;
             currbyte = 0;
@@ -61,19 +57,10 @@ string bits_to_string(vector<bool> bits)
     return res;
 }
 
-string get_file_contents(string filename)
-{
-    cout << filename << endl;
-    std::ifstream in(filename, std::ios::in | std::ios::binary);
-    if(in)
-        return(std::string((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>()));
-    throw(errno);
-
-}
-
 Huffman::Huffman(string inputFileName)
 {
     fileName = inputFileName;
+    cout << fileName << endl;
 }
 
 Huffman::~Huffman()
@@ -85,10 +72,17 @@ Huffman::~Huffman()
 
 void Huffman::code_init()
 {
-    content = get_file_contents(fileName+".txt");
+    ifstream in(fileName+".txt");
+    char c;
+    while (in.get(c))
+        content += c;
+    
     cout << content << endl;
     make_freq();
     make_tree();
+    
+    if(!head) return;
+    
     make_table("",head);
 }
 
@@ -111,12 +105,6 @@ void Huffman::decode_init()
     while (in.get(c1))
         coded_content += c1;
     
-    cout << endl << coded_content.size() << endl;
-    //coded_content = string(istreambuf_iterator<char>(in), istreambuf_iterator<char>());
-    /*getline(in, coded_tree);
-     getline(in, temp);
-     getline(in, coded_content);
-     coded_length = atoi(temp.c_str());*/
     decode_tree(coded_tree);
     vector<bool> bits = string_to_bits(coded_content);
     while (bits.size() > coded_length)
@@ -132,7 +120,7 @@ void Huffman::save_coded(string outputFileName)
     vector<bool> bits = code(content);
     string s = bits_to_string(bits);
 
-    ofstream out(outputFileName+"."+ext, std::ios::out | std::ios::binary);
+    ofstream out(outputFileName+"."+ext);
 
     out << codedTree << "\n";
     out << "\n";
@@ -145,7 +133,7 @@ void Huffman::save_decoded(string outputFileName)
 {
     decode_init();
     
-    ofstream out(outputFileName+"-unz-h.txt", std::ios::out | std::ios::binary);
+    ofstream out(outputFileName+"-unz-h.txt");
     out << content;
     out.close();
 }
@@ -200,6 +188,9 @@ void Huffman::decode_tree(string str)
         v.push_back(n);
     }
     
+    if (v.size() == 0)
+        return;
+    
     head = v[0];
 }
 
@@ -238,6 +229,9 @@ void Huffman::make_tree()
         v.push_back(n);
         sort(v.begin(), v.end(), Node::greater);
     }
+    
+    if (v.size() == 0)
+        return;
     
     head = v[0];
 }

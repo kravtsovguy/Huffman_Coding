@@ -22,6 +22,9 @@ void Shannon_Fano::compress(string inputFileName, string outputFileName)
 
 Shannon_Fano::Node* Shannon_Fano::make_tree(int l, int r)
 {
+    if(l == r)
+        return nullptr;
+    
     if (l + 1 == r)
         return v[l];
     

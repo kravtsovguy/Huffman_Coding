@@ -13,13 +13,21 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
 
-    string s = "/Users/matvey/Documents/Projects/Xcode/Task_KDZ/";
-    Huffman::compress(s+"input", s+"output");
+    string s = "/Users/matvey/Documents/Projects/Xcode/Task_KDZ/test";
+    Huffman::compress(s, s);
     
-    Huffman::decompress(s+"output", s+"input");
+    cout << endl;
     
-    Shannon_Fano::compress(s+"input", s+"output");
+    Huffman::decompress(s, s);
     
-    Shannon_Fano::decompress(s+"output", s+"input");
+    cout << endl;
+    
+    Shannon_Fano::compress(s, s);
+    
+    cout << endl;
+    
+    Shannon_Fano::decompress(s, s);
+    
+    cout << endl;
     return 0;
 }
