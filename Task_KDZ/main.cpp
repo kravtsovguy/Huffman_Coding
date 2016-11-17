@@ -13,7 +13,7 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
 
-    string s = "/Users/matvey/Documents/Projects/Xcode/Task_KDZ/test";
+    string s = "/Users/matvey/Documents/Projects/Xcode/Task_KDZ/Tests/test";
     Huffman::compress(s, s);
     
     cout << endl;
