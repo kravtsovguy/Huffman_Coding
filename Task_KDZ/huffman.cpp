@@ -10,7 +10,6 @@
 #include <algorithm>
 #include <string>
 #include <fstream>
-#include <streambuf>
 #include <iostream>
 #include <map>
 #include <vector>
@@ -197,23 +196,15 @@ void Huffman::decode_tree(string str)
 
 void Huffman::make_freq()
 {
-    int bsize = 256;
-    int freq[bsize];
-    
-    for (int i = 0; i < bsize; i++)
-        freq[i] = 0;
-    
+    map<char,int> freq;
     for (int i = 0; i < content.size(); i++)
-    {
-        unsigned char c = content[i];
-        freq[c]++;
-    }
+        freq[content[i]]++;
     
-    for (int i = 0; i < bsize; i++)
+    while (freq.size())
     {
-        if (freq[i] == 0) continue;
-        Node* n = new Node(freq[i], i);
+        Node* n = new Node(freq.begin()->second, freq.begin()->first);
         v.push_back(n);
+        freq.erase(freq.begin());
     }
     
     sort(v.begin(), v.end(), Node::greater);
