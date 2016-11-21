@@ -26,7 +26,7 @@ string Random_Text::generate_text(string symbols, int size)
     
     for (int i = 0; i < symbols.size(); i++)
     {
-        //cout << symbols.size() << endl;
+        //cout << i << " " << symbols.size() << " ||" << symbols[i] << endl;
         additional[i] = ' ';
         if (symbols[i] < 0)
         {
@@ -105,17 +105,6 @@ string Random_Text::generate_text_type3(int size)
 
 void Random_Text::save_to_file(string str, string filename)
 {
-    
-    //setlocale(LC_ALL,"");
-    
-    //wofstream out(filename);
-    
-    //wstring s(L"привет");
-    
-    //out.write((char*)&wstr[0], wstr.size());
-    
-        //system("pause");
-    
     ofstream out(filename);
     
     out << str;
@@ -123,17 +112,4 @@ void Random_Text::save_to_file(string str, string filename)
     out.close();
     
     cout << "saved!" << endl;
-    /*
-    std::ofstream file(filename, std::ios::out | std::ios::trunc | std::ios::binary);
-    file.exceptions(true);
-    file << wstr;
-    file.close();
-    
-    */
-    /*setlocale(LC_ALL, "ru_RU.UTF-8");
-    //std::locale::global( std::locale( "" ) );
-    wofstream out(filename);
-    out << s;
-    out.close();
-    */
 }
