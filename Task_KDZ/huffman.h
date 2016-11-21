@@ -59,11 +59,13 @@ public:
     
 protected:
     
+    string ext_coded = ".huff";
+    
+    string ext_decoded = "-unz-h.txt";
+    
     Node* head = nullptr;
     
     vector<Node*> v;
-    
-    string ext = "huff";
     
     virtual void make_tree();
     

@@ -15,7 +15,6 @@
 #include <vector>
 using namespace std;
 
-
 vector<bool> string_to_bits(string s)
 {
     vector<bool> v;
@@ -88,7 +87,7 @@ void Huffman::code_init()
 
 void Huffman::decode_init()
 {
-    ifstream in(fileName + "."+ext);
+    ifstream in(fileName + ext_coded);
     string coded_tree, coded_content, temp;
     int coded_length;
     char c1,c2;
@@ -120,7 +119,7 @@ void Huffman::save_coded(string outputFileName)
     vector<bool> bits = code(content);
     string s = bits_to_string(bits);
 
-    ofstream out(outputFileName+"."+ext);
+    ofstream out(outputFileName + ext_coded);
 
     out << codedTree << "\n";
     out << "\n";
@@ -133,7 +132,7 @@ void Huffman::save_decoded(string outputFileName)
 {
     decode_init();
     
-    ofstream out(outputFileName+"-unz-h.txt");
+    ofstream out(outputFileName+ext_decoded);
     out << content;
     out.close();
 }

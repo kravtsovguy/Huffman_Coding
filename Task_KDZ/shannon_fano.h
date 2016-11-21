@@ -22,11 +22,15 @@ public:
     
     Shannon_Fano(string inputFileName) : Huffman(inputFileName)
     {
-        ext = "shan";
+        ext_coded = ".shan";
+        
+        ext_decoded = "-unz-s.txt";
     }
     
-protected:
+private:
     Node* make_tree(int l, int r);
+    
+protected:
     void make_tree();
     
 };
