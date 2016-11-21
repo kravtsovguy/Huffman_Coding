@@ -19,7 +19,7 @@ vector<bool> string_to_bits(string s)
 {
     vector<bool> v;
     for (int i = 0; i < s.size(); i++) {
-        cout << (int)(unsigned char)s[i] << " ";
+        //cout << (int)(unsigned char)s[i] << " ";
         char c = s[i];
         for (int j = 0; j < 8; j++)
         {
@@ -27,7 +27,7 @@ vector<bool> string_to_bits(string s)
             v.push_back(bit == 1);
         }
     }
-    cout << endl;
+    //cout << endl;
     return v;
 }
 
@@ -46,13 +46,13 @@ string bits_to_string(vector<bool> bits)
         bitcount++;
         if (bitcount == 8)
         {
-            cout << (int)(unsigned char)currbyte << " ";
+            //cout << (int)(unsigned char)currbyte << " ";
             res += currbyte;
             bitcount = 0;
             currbyte = 0;
         }
     }
-    cout << endl;
+    //cout << endl;
     return res;
 }
 
@@ -76,7 +76,7 @@ void Huffman::code_init()
     while (in.get(c))
         content += c;
     
-    cout << content << endl;
+    //cout << content << endl;
     make_freq();
     make_tree();
     
@@ -109,7 +109,7 @@ void Huffman::decode_init()
     while (bits.size() > coded_length)
         bits.pop_back();
     content = decode(bits);
-    cout << content << endl;
+    //cout << content << endl;
 }
 
 void Huffman::save_coded(string outputFileName)
