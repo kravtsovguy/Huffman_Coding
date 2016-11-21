@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BA02D34B1DE2F35500077EA0 /* random_text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA02D3491DE2F35500077EA0 /* random_text.cpp */; };
+		BA02D34E1DE39BD700077EA0 /* timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA02D34C1DE39BD700077EA0 /* timer.cpp */; };
 		BA0C206F1DDDC20B0087DFDE /* huffman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA0C206A1DDDC20B0087DFDE /* huffman.cpp */; };
 		BA0C20701DDDC20B0087DFDE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA0C206C1DDDC20B0087DFDE /* main.cpp */; };
 		BA0C20711DDDC20B0087DFDE /* shannon_fano.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA0C206D1DDDC20B0087DFDE /* shannon_fano.cpp */; };
@@ -28,6 +29,8 @@
 /* Begin PBXFileReference section */
 		BA02D3491DE2F35500077EA0 /* random_text.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = random_text.cpp; sourceTree = "<group>"; };
 		BA02D34A1DE2F35500077EA0 /* random_text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = random_text.h; sourceTree = "<group>"; };
+		BA02D34C1DE39BD700077EA0 /* timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timer.cpp; sourceTree = "<group>"; };
+		BA02D34D1DE39BD700077EA0 /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
 		BA0C206A1DDDC20B0087DFDE /* huffman.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = huffman.cpp; sourceTree = "<group>"; };
 		BA0C206B1DDDC20B0087DFDE /* huffman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = huffman.h; sourceTree = "<group>"; };
 		BA0C206C1DDDC20B0087DFDE /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -47,13 +50,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BA02D3481DE2F31500077EA0 /* Random */ = {
+		BA02D3481DE2F31500077EA0 /* Additional */ = {
 			isa = PBXGroup;
 			children = (
 				BA02D3491DE2F35500077EA0 /* random_text.cpp */,
 				BA02D34A1DE2F35500077EA0 /* random_text.h */,
+				BA02D34C1DE39BD700077EA0 /* timer.cpp */,
+				BA02D34D1DE39BD700077EA0 /* timer.h */,
 			);
-			name = Random;
+			name = Additional;
 			sourceTree = "<group>";
 		};
 		BA0C20691DDDC20B0087DFDE /* Task_KDZ */ = {
@@ -71,7 +76,7 @@
 		BA43B82C1DDCA73E008C9120 = {
 			isa = PBXGroup;
 			children = (
-				BA02D3481DE2F31500077EA0 /* Random */,
+				BA02D3481DE2F31500077EA0 /* Additional */,
 				BA0C20691DDDC20B0087DFDE /* Task_KDZ */,
 				BA43B8361DDCA73F008C9120 /* Products */,
 			);
@@ -144,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA0C20701DDDC20B0087DFDE /* main.cpp in Sources */,
+				BA02D34E1DE39BD700077EA0 /* timer.cpp in Sources */,
 				BA02D34B1DE2F35500077EA0 /* random_text.cpp in Sources */,
 				BA0C206F1DDDC20B0087DFDE /* huffman.cpp in Sources */,
 				BA0C20711DDDC20B0087DFDE /* shannon_fano.cpp in Sources */,

@@ -27,7 +27,7 @@ string Random_Text::generate_text(string symbols, int size)
     for (int i = 0; i < symbols.size(); i++)
     {
         //cout << i << " " << symbols.size() << " ||" << symbols[i] << endl;
-        additional[i] = ' ';
+        additional[i] = '\0';
         if (symbols[i] < 0)
         {
             //cout << symbols[i] << symbols[i+1] << endl;
@@ -43,8 +43,9 @@ string Random_Text::generate_text(string symbols, int size)
         char ch = symbols[index];
         char ch_a = additional[index];
         res += ch;
-        if (ch_a != ' ')
+        if (ch_a != '\0')
             res += ch_a;
+        //cout << res.size() << endl;
     }
     
     return res;
@@ -80,7 +81,7 @@ string Random_Text::get_chars_type3()
 {
     string ch_set = get_chars_type2();
     
-    string ch_additional = "+-*/=.,;:?!%@#$&~()[]{}<>„“";
+    string ch_additional = "+-*/=.,;:?!%@#$&~()[]{}<>\"";
     
     ch_set += ch_additional;
     
