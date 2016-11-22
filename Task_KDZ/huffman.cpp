@@ -13,6 +13,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include "timer.h"
 using namespace std;
 
 vector<bool> string_to_bits(string s)
@@ -59,7 +60,7 @@ string bits_to_string(vector<bool> bits)
 Huffman::Huffman(string inputFileName)
 {
     fileName = inputFileName;
-    cout << fileName << endl;
+    //cout << fileName << endl;
 }
 
 Huffman::~Huffman()
@@ -114,11 +115,15 @@ void Huffman::decode_init()
 
 void Huffman::save_coded(string outputFileName)
 {
+    Timer::start();
+    
     code_init();
     
     vector<bool> bits = code(content);
     string s = bits_to_string(bits);
-
+    
+    Timer::stop();
+    
     ofstream out(outputFileName + ext_coded);
 
     out << codedTree << "\n";
@@ -130,7 +135,11 @@ void Huffman::save_coded(string outputFileName)
 
 void Huffman::save_decoded(string outputFileName)
 {
+    Timer::start();
+    
     decode_init();
+    
+    Timer::stop();
     
     ofstream out(outputFileName+ext_decoded);
     out << content;

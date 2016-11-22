@@ -7,10 +7,8 @@
 //
 
 #include "random_text.h"
-#include <vector>
 #include <cstdlib>
 #include <ctime>
-#include <iostream>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -103,6 +101,25 @@ string Random_Text::generate_text_type3(int size)
     return generate_text(get_chars_type3(), size);
 }
 
+string Random_Text::get_chars(int type)
+{
+    string ch_set;
+    if (type == 1)
+        ch_set = get_chars_type1();
+    
+    if (type == 2)
+        ch_set = get_chars_type2();
+    
+    if (type == 3)
+        ch_set = get_chars_type3();
+    
+    return ch_set;
+}
+
+string Random_Text::generate_text(int type, int size)
+{
+    return generate_text(get_chars(type), size);
+}
 
 void Random_Text::save_to_file(string str, string filename)
 {
@@ -113,4 +130,11 @@ void Random_Text::save_to_file(string str, string filename)
     out.close();
     
     cout << "saved!" << endl;
+}
+
+void Random_Text::generate_and_save(int type, int size, string filename)
+{
+    Random_Text* rt = new Random_Text();
+    
+    rt->save_to_file(rt->generate_text(type, size), filename);
 }

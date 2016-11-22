@@ -10,18 +10,19 @@
 #define random_text_h
 
 #include <string>
-#include <vector>
 using namespace std;
 
 class Random_Text
 {
 public:
+    string get_chars(int type);
+    string generate_text(int type, int size);
     string generate_text(string symbols, int size);
     string generate_text_type1(int size);
     string generate_text_type2(int size);
     string generate_text_type3(int size);
     void save_to_file(string str, string filename);
-    
+    static void generate_and_save(int type, int size, string filename);
 private:
     string get_chars_type1();
     string get_chars_type2();

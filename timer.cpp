@@ -9,8 +9,6 @@
 #include "timer.h"
 #include <iostream>
 
-typedef unsigned long long ull;
-
 ull Timer::ticks = 0;
 ull Timer::ticks_temp = 0;
 
@@ -40,7 +38,7 @@ void Timer::start()
 void Timer::stop()
 {
     ticks = rdtsc() - ticks_temp;
-    print_last_ticks();
+    //print_last_ticks();
 }
 
 ull Timer::get_last_ticks()

@@ -12,6 +12,7 @@
 		BA0C206F1DDDC20B0087DFDE /* huffman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA0C206A1DDDC20B0087DFDE /* huffman.cpp */; };
 		BA0C20701DDDC20B0087DFDE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA0C206C1DDDC20B0087DFDE /* main.cpp */; };
 		BA0C20711DDDC20B0087DFDE /* shannon_fano.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA0C206D1DDDC20B0087DFDE /* shannon_fano.cpp */; };
+		BA84EB521DE435CF00F3B6F2 /* tester.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA84EB501DE435CF00F3B6F2 /* tester.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,8 @@
 		BA0C206D1DDDC20B0087DFDE /* shannon_fano.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shannon_fano.cpp; sourceTree = "<group>"; };
 		BA0C206E1DDDC20B0087DFDE /* shannon_fano.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shannon_fano.h; sourceTree = "<group>"; };
 		BA43B8351DDCA73F008C9120 /* Task_KDZ */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Task_KDZ; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA84EB501DE435CF00F3B6F2 /* tester.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tester.cpp; sourceTree = "<group>"; };
+		BA84EB511DE435CF00F3B6F2 /* tester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tester.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +60,8 @@
 				BA02D34A1DE2F35500077EA0 /* random_text.h */,
 				BA02D34C1DE39BD700077EA0 /* timer.cpp */,
 				BA02D34D1DE39BD700077EA0 /* timer.h */,
+				BA84EB501DE435CF00F3B6F2 /* tester.cpp */,
+				BA84EB511DE435CF00F3B6F2 /* tester.h */,
 			);
 			name = Additional;
 			sourceTree = "<group>";
@@ -152,6 +157,7 @@
 				BA02D34E1DE39BD700077EA0 /* timer.cpp in Sources */,
 				BA02D34B1DE2F35500077EA0 /* random_text.cpp in Sources */,
 				BA0C206F1DDDC20B0087DFDE /* huffman.cpp in Sources */,
+				BA84EB521DE435CF00F3B6F2 /* tester.cpp in Sources */,
 				BA0C20711DDDC20B0087DFDE /* shannon_fano.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
