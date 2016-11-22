@@ -25,8 +25,8 @@ void Tester::test_all()
 
 void Tester::test()
 {
-    int size = sizeof(sizes);//(sizeof(sizes)/sizeof(*sizes));
-    for (int i = 0; i < size; i++)
+    int size = sizeof(sizes);
+    for (int i = 0; i < 5; i++)
     {
         for (int j = 1; j <=3; j++)
         {
@@ -35,30 +35,22 @@ void Tester::test()
             int times_to_generate = 3;
             for (int k = 0; k < times_to_generate; k++)
             {
-                //if (k > 0) break;
                 cout << i << " " << j << " " << k << endl;
                 Random_Text::generate_and_save(j, sizes[i], text_temp + ".txt");
 
                 i_size = i;
                 i_type = j;
                 
-                for (int huff = 1; huff >= 0; huff-- )
-                {
-                    for (int compr = 1; compr >= 0; compr--)
-                    {
-                        is_Huffman = huff == 1;
-                        is_compr = compr == 1;
+                for (huff = 1; huff >= 0; huff-- )
+                    for (compr = 1; compr >= 0; compr--)
                         arr[huff][compr] += testAlgo();
-                    }
-                }
+                
             }
             
-            for (int huff = 1; huff >= 0; huff-- )
+            for (huff = 1; huff >= 0; huff-- )
             {
-                for (int compr = 1; compr >= 0; compr--)
+                for (compr = 1; compr >= 0; compr--)
                 {
-                    is_Huffman = huff == 1;
-                    is_compr = compr == 1;
                     ticks = arr[huff][compr]/times_to_generate;
                     save_info_1();
                     save_info_2();
@@ -78,8 +70,8 @@ void Tester::save_info_1()
     stringstream res;
     
     name << "/1/";
-    name << (is_Huffman ? "Huffman_" : "Shannon_");
-    name << (is_compr ? "compression_" : "decompression_");
+    name << (huff ? "Huffman_" : "Shannon_");
+    name << (compr ? "compression_" : "decompression_");
     name << (i_size < 5 ? "small" : "big");
     if ((i_size == 0 || i_size == 5) && i_type == 1)
     {
@@ -100,13 +92,13 @@ void Tester::save_info_2()
     
     name << "/2/";
     name << "type" << i_type << "_";
-    name << (is_compr ? "compression_" : "decompression_");
+    name << (compr ? "compression_" : "decompression_");
     name << (i_size < 5 ? "small" : "big");
-    if ((i_size == 0 || i_size == 5) && is_Huffman)
+    if ((i_size == 0 || i_size == 5) && huff)
     {
         res << "bytes / algo" << "," << "Huffman" << "," << "Shannon";
     }
-    if (is_Huffman)
+    if (huff)
     {
         res << "\n" << sizes[i_size]/1000;
     }
@@ -120,19 +112,19 @@ void Tester::save_info_3()
     stringstream name;
     stringstream res;
     
-    if (i_size != 7)
+    if (i_size != 4)
         return;
     
     name << "/3/";
-    name << (is_compr ? "compression_" : "decompression_");
-    name << sizes[i_size]/1000 << "B" ;
+    name << (compr ? "compression_" : "decompression_");
+    name << sizes[i_size]/1000 << "kB" ;
     
     
-    if (i_type == 1 && is_Huffman)
+    if (i_type == 1 && huff)
     {
         res << "type / algo" << "," << "Huffman" << "," << "Shannon";
     }
-    if (is_Huffman)
+    if (huff)
     {
         res << "\n" << i_type;
     }
@@ -146,15 +138,15 @@ long Tester::testAlgo()
     int times = 1;
     for (int i = 0; i < times; i++)
     {
-        if (is_Huffman)
+        if (huff)
         {
-            if (is_compr)
+            if (compr)
                 Huffman::compress(text_temp, text_temp);
             else
                 Huffman::decompress(text_temp, text_temp);
         }else
         {
-            if (is_compr)
+            if (compr)
                 Shannon_Fano::compress(text_temp, text_temp);
             else
                 Shannon_Fano::decompress(text_temp, text_temp);

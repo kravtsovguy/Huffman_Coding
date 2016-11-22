@@ -36,7 +36,7 @@ private:
     int* sizes = new int[8]{20000, 40000, 60000, 80000, 100000, 1000000, 2000000, 3000000};
     string csv_info;
     map<string,string> csv;
-    bool is_Huffman, is_compr;
+    int huff, compr;
     int i_size, i_type;
     long ticks;
 
