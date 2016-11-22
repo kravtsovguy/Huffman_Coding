@@ -23,26 +23,35 @@ void Tester::test_all()
     t->test();
 }
 
-string text_temp = "/Users/matvey/Documents/Projects/Xcode/Task_KDZ/Tester/Temp/text";
-string csv_path = "/Users/matvey/Documents/Projects/Xcode/Task_KDZ/Tester/CSV/";
-int sizes[] = {20000, 40000, 60000, 80000, 100000, 1000000, 2000000, 3000000};
-string csv_info;
-map<string,string> csv;
-bool is_Huffman, is_compr;
-int i_size, i_type;
-long ticks;
 void Tester::test()
 {
-    int size = (sizeof(sizes)/sizeof(*sizes));
+    int size = sizeof(sizes);//(sizeof(sizes)/sizeof(*sizes));
     for (int i = 0; i < size; i++)
     {
         for (int j = 1; j <=3; j++)
         {
-            cout << i << " " << j << endl;
-            Random_Text::generate_and_save(j, sizes[i], text_temp + ".txt");
+            long arr[2][2] = {0};
+            
+            int times_to_generate = 3;
+            for (int k = 0; k < times_to_generate; k++)
+            {
+                //if (k > 0) break;
+                cout << i << " " << j << " " << k << endl;
+                Random_Text::generate_and_save(j, sizes[i], text_temp + ".txt");
 
-            i_size = i;
-            i_type = j;
+                i_size = i;
+                i_type = j;
+                
+                for (int huff = 1; huff >= 0; huff-- )
+                {
+                    for (int compr = 1; compr >= 0; compr--)
+                    {
+                        is_Huffman = huff == 1;
+                        is_compr = compr == 1;
+                        arr[huff][compr] += testAlgo();
+                    }
+                }
+            }
             
             for (int huff = 1; huff >= 0; huff-- )
             {
@@ -50,7 +59,7 @@ void Tester::test()
                 {
                     is_Huffman = huff == 1;
                     is_compr = compr == 1;
-                    ticks = testAlgo();
+                    ticks = arr[huff][compr]/times_to_generate;
                     save_info_1();
                     save_info_2();
                     save_info_3();

@@ -12,17 +12,6 @@
 ull Timer::ticks = 0;
 ull Timer::ticks_temp = 0;
 
-/*
- long long rdtsc()
- {
- long long x;
- asm volatile("rdtsc\n"
- "shl $32, %%rdx\n"
- "or %%rdx, %%rax" : "=a" (x));
- return x;
- }
- */
-
 inline ull Timer::rdtsc()
 {
     unsigned int lo, hi;
@@ -38,7 +27,6 @@ void Timer::start()
 void Timer::stop()
 {
     ticks = rdtsc() - ticks_temp;
-    //print_last_ticks();
 }
 
 ull Timer::get_last_ticks()

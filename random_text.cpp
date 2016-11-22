@@ -14,10 +14,8 @@
 #include <fstream>
 using namespace std;
 
-string Random_Text::generate_text(string symbols, int size)
+void Random_Text::generate_text(string symbols, int size)
 {
-    string res = "";
-    
     srand(unsigned(time(0)));
     
     char additional[symbols.size()];
@@ -35,106 +33,69 @@ string Random_Text::generate_text(string symbols, int size)
         }
     }
 
-    while (res.size() < size)
+    while (text.size() < size)
     {
         int index = rand() % symbols.size();
         char ch = symbols[index];
         char ch_a = additional[index];
-        res += ch;
+        text += ch;
         if (ch_a != '\0')
-            res += ch_a;
+            text += ch_a;
         //cout << res.size() << endl;
     }
-    
-    return res;
-}
-
-string Random_Text::get_chars_type1()
-{
-    string ch_set;
-    
-    for (char i='A'; i <= 'Z'; i++)
-        ch_set += i;
-    
-    for (char i='a'; i <= 'z'; i++)
-        ch_set += i;
-    
-    ch_set += ' ';
-    
-    return ch_set;
-}
-
-string Random_Text::get_chars_type2()
-{
-    string ch_set = get_chars_type1();
-    
-    string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-    
-    ch_set += alphabet;
-    
-    return ch_set;
-}
-
-string Random_Text::get_chars_type3()
-{
-    string ch_set = get_chars_type2();
-    
-    string ch_additional = "+-*/=.,;:?!%@#$&~()[]{}<>\"";
-    
-    ch_set += ch_additional;
-    
-    return ch_set;
-}
-
-string Random_Text::generate_text_type1(int size)
-{
-    return generate_text(get_chars_type1(), size);
-}
-
-string Random_Text::generate_text_type2(int size)
-{
-    return generate_text(get_chars_type2(), size);
-}
-
-string Random_Text::generate_text_type3(int size)
-{
-    return generate_text(get_chars_type3(), size);
 }
 
 string Random_Text::get_chars(int type)
 {
     string ch_set;
-    if (type == 1)
-        ch_set = get_chars_type1();
     
-    if (type == 2)
-        ch_set = get_chars_type2();
+    if (type >= 1)
+    {
+        for (char i='A'; i <= 'Z'; i++)
+            ch_set += i;
+        
+        for (char i='a'; i <= 'z'; i++)
+            ch_set += i;
+        
+        ch_set += ' ';
+    }
     
-    if (type == 3)
-        ch_set = get_chars_type3();
+    if (type >= 2)
+    {
+        string ch_alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+        
+        ch_set += ch_alphabet;
+    }
+    
+    if (type >= 3)
+    {
+        string ch_additional = "+-*/=.,;:?!%@#$&~()[]{}<>\"";
+        
+        ch_set += ch_additional;
+    }
     
     return ch_set;
 }
 
-string Random_Text::generate_text(int type, int size)
+void Random_Text::generate_text(int type, int size)
 {
-    return generate_text(get_chars(type), size);
+    generate_text(get_chars(type), size);
 }
 
-void Random_Text::save_to_file(string str, string filename)
+void Random_Text::save_to_file(string filename)
 {
     ofstream out(filename);
     
-    out << str;
+    out << text;
     
     out.close();
     
-    cout << "saved!" << endl;
+    //cout << "saved!" << endl;
 }
 
 void Random_Text::generate_and_save(int type, int size, string filename)
 {
     Random_Text* rt = new Random_Text();
-    
-    rt->save_to_file(rt->generate_text(type, size), filename);
+    rt->generate_text(type, size);
+    rt->save_to_file(filename);
 }
