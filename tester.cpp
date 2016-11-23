@@ -26,13 +26,14 @@ void Tester::test_all()
 void Tester::test()
 {
     int size = sizeof(sizes);
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < size; i++)
     {
         for (int j = 1; j <=3; j++)
         {
             long arr[2][2] = {0};
             
             int times_to_generate = 3;
+            
             for (int k = 0; k < times_to_generate; k++)
             {
                 cout << i << " " << j << " " << k << endl;
@@ -61,6 +62,33 @@ void Tester::test()
     }
     
     save_all_csv();
+}
+
+long Tester::testAlgo()
+{
+    long ticks = 0;
+    int times = 5;
+    for (int i = 0; i < times; i++)
+    {
+        if (huff)
+        {
+            if (compr)
+                Huffman::compress(text_temp, text_temp);
+            else
+                Huffman::decompress(text_temp, text_temp);
+        }else
+        {
+            if (compr)
+                Shannon_Fano::compress(text_temp, text_temp);
+            else
+                Shannon_Fano::decompress(text_temp, text_temp);
+        }
+        
+        ticks += Timer::get_last_ticks();
+    }
+    ticks /= times;
+    
+    return ticks;
 }
 
 void Tester::save_info_1()
@@ -112,7 +140,7 @@ void Tester::save_info_3()
     stringstream name;
     stringstream res;
     
-    if (i_size != 4)
+    if (i_size != 7)
         return;
     
     name << "/3/";
@@ -130,33 +158,6 @@ void Tester::save_info_3()
     }
     res << "," << ticks;
     csv[name.str()] += res.str();
-}
-
-long Tester::testAlgo()
-{
-    long ticks = 0;
-    int times = 1;
-    for (int i = 0; i < times; i++)
-    {
-        if (huff)
-        {
-            if (compr)
-                Huffman::compress(text_temp, text_temp);
-            else
-                Huffman::decompress(text_temp, text_temp);
-        }else
-        {
-            if (compr)
-                Shannon_Fano::compress(text_temp, text_temp);
-            else
-                Shannon_Fano::decompress(text_temp, text_temp);
-        }
-        
-        ticks += Timer::get_last_ticks();
-    }
-    ticks /= times;
-    
-    return ticks;
 }
 
 void Tester::save_all_csv()
