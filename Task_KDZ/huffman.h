@@ -76,6 +76,10 @@ private:
     string content = "";
     
     string coded_tree = "";
+    
+    string coded_content = "";
+    
+    vector<bool> coded_bits;
 
     map<char,string> table;
     
@@ -83,13 +87,13 @@ private:
     
     void make_table(string bits, Node* n);
     
-    void code_init();
+    void code();
     
-    void decode_init();
+    void decode();
     
-    vector<bool> code(string symbols);
+    void code_content_to_bits();
     
-    string decode(vector<bool> bits);
+    void decode_content_from_bits();
     
     void decode_tree();
     

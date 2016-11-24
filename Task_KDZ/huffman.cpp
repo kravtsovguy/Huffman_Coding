@@ -70,9 +70,13 @@ Huffman::~Huffman()
     table.clear();
 }
 
-void Huffman::code_init()
+void Huffman::code()
 {
     ifstream in(filename+".txt");
+    
+    content = "";
+    coded_tree = "";
+    
     char c;
     while (in.get(c))
         content += c;
@@ -81,18 +85,45 @@ void Huffman::code_init()
     make_freq();
     make_tree();
     
-    if(!head) return;
     
-    make_table("",head);
+    table.clear();
+    
+    if (head)
+        make_table("",head);
+    
+    code_content_to_bits();
+    coded_content = bits_to_string(coded_bits);
 }
 
-void Huffman::decode_init()
+void Huffman::save_coded()
+{
+    Timer::start();
+    
+    code();
+    
+    Timer::stop();
+    
+    ofstream out(filename + ext_coded);
+    
+    out << coded_tree << "\n";
+    out << "\n";
+    out << coded_bits.size() << "\n";
+    out << coded_content;
+    out.close();
+}
+
+void Huffman::decode()
 {
     ifstream in(filename + ext_coded);
-    string coded_content;
+    
+    coded_tree = "";
+    coded_content = "";
+    
     int coded_length;
     char c1,c2;
-    while (true) {
+    
+    while (true)
+    {
         in.get(c1);
         c2 = in.peek();
         if (c1 == '\n' && c2== '\n')
@@ -100,46 +131,29 @@ void Huffman::decode_init()
         
         coded_tree += c1;
     }
+    
     in >> coded_length;
     in.get();
+    
     while (in.get(c1))
         coded_content += c1;
     
     decode_tree();
-    vector<bool> bits = string_to_bits(coded_content);
     
-    while (bits.size() > coded_length)
-        bits.pop_back();
+    coded_bits = string_to_bits(coded_content);
     
-    content = decode(bits);
+    while (coded_bits.size() > coded_length)
+        coded_bits.pop_back();
+    
+    decode_content_from_bits();
     //cout << content << endl;
-}
-
-void Huffman::save_coded()
-{
-    Timer::start();
-    
-    code_init();
-    
-    vector<bool> bits = code(content);
-    string coded_content = bits_to_string(bits);
-    
-    Timer::stop();
-    
-    ofstream out(filename + ext_coded);
-
-    out << coded_tree << "\n";
-    out << "\n";
-    out << bits.size() << "\n";
-    out << coded_content;
-    out.close();
 }
 
 void Huffman::save_decoded()
 {
     Timer::start();
     
-    decode_init();
+    decode();
     
     Timer::stop();
     
@@ -179,7 +193,8 @@ void Huffman::make_table(string bits, Node* n)
 
 void Huffman::decode_tree()
 {
-    vector<Node*> v;
+    v.clear();
+    
     for (int i=0; i<coded_tree.size(); i++)
     {
         if(coded_tree[i] == '1')
@@ -206,7 +221,10 @@ void Huffman::decode_tree()
 
 void Huffman::make_freq()
 {
+    v.clear();
+    
     map<char,int> freq;
+    
     for (int i = 0; i < content.size(); i++)
         freq[content[i]]++;
     
@@ -241,34 +259,35 @@ void Huffman::make_tree()
     head = v[0];
 }
 
-vector<bool> Huffman::code(string symbols)
+void Huffman::code_content_to_bits()
 {
-    vector<bool> v;
-    for (int i=0; i<symbols.size(); i++)
+    coded_bits.clear();
+    
+    for (int i=0; i<content.size(); i++)
     {
-        string bits = table[symbols[i]];
+        string bits = table[content[i]];
         for (int j=0; j<bits.size(); j++)
-            v.push_back(bits[j] == '1');
+            coded_bits.push_back(bits[j] == '1');
     }
-    return v;
 }
 
-string Huffman::decode(vector<bool> bits)
+void Huffman::decode_content_from_bits()
 {
-    string s = "";
+    content = "";
+    
     Node* n = head;
-    for (int i = 0; i < bits.size(); i++)
+    
+    for (int i = 0; i < coded_bits.size(); i++)
     {
         if(n->left && n->right)
         {
-            n = bits[i] ? n->right : n->left;
+            n = coded_bits[i] ? n->right : n->left;
         }
     
         if (!n->left && !n->left)
         {
-            s+=string(1,n->value);
+            content+=string(1,n->value);
             n = head;
         }
     }
-    return s;
 }

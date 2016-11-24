@@ -26,6 +26,7 @@ void Tester::test_all()
 void Tester::test()
 {
     int size = sizeof(sizes)/sizeof(*sizes);
+    //size = 3;
     for (i_size = 0; i_size < size; i_size++)
     {
         for (i_type = 1; i_type <= 3; i_type++)
