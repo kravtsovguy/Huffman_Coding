@@ -57,9 +57,9 @@ string bits_to_string(vector<bool> bits)
     return res;
 }
 
-Huffman::Huffman(string inputFileName)
+Huffman::Huffman(string filename)
 {
-    fileName = inputFileName;
+    this->filename = filename;
     //cout << fileName << endl;
 }
 
@@ -72,7 +72,7 @@ Huffman::~Huffman()
 
 void Huffman::code_init()
 {
-    ifstream in(fileName+".txt");
+    ifstream in(filename+".txt");
     char c;
     while (in.get(c))
         content += c;
@@ -88,8 +88,8 @@ void Huffman::code_init()
 
 void Huffman::decode_init()
 {
-    ifstream in(fileName + ext_coded);
-    string coded_tree, coded_content, temp;
+    ifstream in(filename + ext_coded);
+    string coded_content;
     int coded_length;
     char c1,c2;
     while (true) {
@@ -105,35 +105,37 @@ void Huffman::decode_init()
     while (in.get(c1))
         coded_content += c1;
     
-    decode_tree(coded_tree);
+    decode_tree();
     vector<bool> bits = string_to_bits(coded_content);
+    
     while (bits.size() > coded_length)
         bits.pop_back();
+    
     content = decode(bits);
     //cout << content << endl;
 }
 
-void Huffman::save_coded(string outputFileName)
+void Huffman::save_coded()
 {
     Timer::start();
     
     code_init();
     
     vector<bool> bits = code(content);
-    string s = bits_to_string(bits);
+    string coded_content = bits_to_string(bits);
     
     Timer::stop();
     
-    ofstream out(outputFileName + ext_coded);
+    ofstream out(filename + ext_coded);
 
-    out << codedTree << "\n";
+    out << coded_tree << "\n";
     out << "\n";
     out << bits.size() << "\n";
-    out << s;
+    out << coded_content;
     out.close();
 }
 
-void Huffman::save_decoded(string outputFileName)
+void Huffman::save_decoded()
 {
     Timer::start();
     
@@ -141,27 +143,27 @@ void Huffman::save_decoded(string outputFileName)
     
     Timer::stop();
     
-    ofstream out(outputFileName+ext_decoded);
+    ofstream out(filename+ext_decoded);
     out << content;
     out.close();
 }
 
-void Huffman::decompress(string inputFileName, string outputFileName)
+void Huffman::decompress(string filename)
 {
-    Huffman(inputFileName).save_decoded(outputFileName);
+    Huffman(filename).save_decoded();
 }
 
 
-void Huffman::compress(string inputFileName, string outputFileName)
+void Huffman::compress(string filename)
 {
-    Huffman(inputFileName).save_coded(outputFileName);
+    Huffman(filename).save_coded();
 }
 
 void Huffman::make_table(string bits, Node* n)
 {
     if (!n->left && !n->left)
     {
-        codedTree +="1"+string(1,n->value);
+        coded_tree +="1"+string(1,n->value);
         table[n->value] = bits;
         
         if (head == n)
@@ -172,18 +174,18 @@ void Huffman::make_table(string bits, Node* n)
     
     make_table(bits+"0", n->left);
     make_table(bits+"1", n->right);
-    codedTree += "0";
+    coded_tree += "0";
 }
 
-void Huffman::decode_tree(string str)
+void Huffman::decode_tree()
 {
     vector<Node*> v;
-    for (int i=0; i<str.size(); i++)
+    for (int i=0; i<coded_tree.size(); i++)
     {
-        if(str[i] == '1')
+        if(coded_tree[i] == '1')
         {
             i++;
-            v.push_back(new Node(-1, str[i]));
+            v.push_back(new Node(-1, coded_tree[i]));
             continue;
         }
         Node* n1 = v.back();

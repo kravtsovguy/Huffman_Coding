@@ -18,10 +18,6 @@ class Tester
 public:
     static void test_all();
     void test();
-    ~Tester()
-    {
-        delete [] sizes;
-    }
     
 private:
     void save_info_1();
@@ -31,10 +27,9 @@ private:
     void save_all_csv();
     long testAlgo();
     
-    string text_temp = "/Users/matvey/Documents/Projects/Xcode/Task_KDZ/Tester/Temp/text";
+    string text_path = "/Users/matvey/Documents/Projects/Xcode/Task_KDZ/Tester/Temp/text";
     string csv_path = "/Users/matvey/Documents/Projects/Xcode/Task_KDZ/Tester/CSV/";
-    int* sizes = new int[8]{20000, 40000, 60000, 80000, 100000, 1000000, 2000000, 3000000};
-    string csv_info;
+    int sizes[8] = {20000, 40000, 60000, 80000, 100000, 1000000, 2000000, 3000000};
     map<string,string> csv;
     int huff, compr;
     int i_size, i_type;

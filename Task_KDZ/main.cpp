@@ -19,26 +19,6 @@ using namespace std;
 int main(int argc, const char * argv[])
 {
     Tester::test_all();
-    /*Random_Text* rt = new Random_Text();
-    string str = rt->generate_text_type2(1000);
-    rt->save_to_file(str, "/Users/matvey/Documents/Projects/Xcode/Task_KDZ/rand.txt");
 
-    string s = "/Users/matvey/Documents/Projects/Xcode/Task_KDZ/rand";
-
-    Huffman::compress(s, s);
-    cout << endl;
-    
-    Huffman::decompress(s, s);
-    
-    cout << endl;
-    
-    Shannon_Fano::compress(s, s);
-    
-    cout << endl;
-    
-    Shannon_Fano::decompress(s, s);
-    
-    cout << endl;
-     */
     return 0;
 }

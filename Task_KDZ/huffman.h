@@ -45,15 +45,15 @@ protected:
     
 public:
     
-    static void compress(string inputFileName, string outputFileName);
+    static void compress(string filename);
     
-    static void decompress(string inputFileName, string outputFileName);
+    static void decompress(string filename);
     
-    Huffman(string inputFileName);
+    Huffman(string filename);
     
-    void save_coded(string ouputFileName);
+    void save_coded();
     
-    void save_decoded(string ouputFileName);
+    void save_decoded();
     
     ~Huffman();
     
@@ -71,11 +71,11 @@ protected:
     
 private:
     
-    string fileName = "";
+    string filename = "";
     
     string content = "";
     
-    string codedTree = "";
+    string coded_tree = "";
 
     map<char,string> table;
     
@@ -91,7 +91,7 @@ private:
     
     string decode(vector<bool> bits);
     
-    void decode_tree(string str);
+    void decode_tree();
     
 
 };

@@ -16,11 +16,11 @@ class Shannon_Fano : public Huffman
     
 public:
     
-    static void compress(string inputFileName, string outputFileName);
+    static void compress(string filename);
     
-    static void decompress(string inputFileName, string outputFileName);
+    static void decompress(string filename);
     
-    Shannon_Fano(string inputFileName) : Huffman(inputFileName)
+    Shannon_Fano(string filename) : Huffman(filename)
     {
         ext_coded = ".shan";
         

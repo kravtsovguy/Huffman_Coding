@@ -9,15 +9,15 @@
 #include "shannon_fano.h"
 #include <vector>
 
-void Shannon_Fano::decompress(string inputFileName, string outputFileName)
+void Shannon_Fano::decompress(string filename)
 {
-    Shannon_Fano(inputFileName).save_decoded(outputFileName);
+    Shannon_Fano(filename).save_decoded();
 }
 
 
-void Shannon_Fano::compress(string inputFileName, string outputFileName)
+void Shannon_Fano::compress(string filename)
 {
-    Shannon_Fano(inputFileName).save_coded(outputFileName);
+    Shannon_Fano(filename).save_coded();
 }
 
 Shannon_Fano::Node* Shannon_Fano::make_tree(int l, int r)

@@ -25,23 +25,20 @@ void Tester::test_all()
 
 void Tester::test()
 {
-    int size = sizeof(sizes);
-    for (int i = 0; i < size; i++)
+    int size = sizeof(sizes)/sizeof(*sizes);
+    for (i_size = 0; i_size < size; i_size++)
     {
-        for (int j = 1; j <=3; j++)
+        for (i_type = 1; i_type <= 3; i_type++)
         {
             long arr[2][2] = {0};
             
-            int times_to_generate = 3;
+            int times = 3;
             
-            for (int k = 0; k < times_to_generate; k++)
+            for (int i_times = 0; i_times < times; i_times++)
             {
-                cout << i << " " << j << " " << k << endl;
-                Random_Text::generate_and_save(j, sizes[i], text_temp + ".txt");
+                cout << i_size << " " << i_type << " " << i_times << endl;
+                Random_Text::generate_and_save(i_type, sizes[i_size], text_path + ".txt");
 
-                i_size = i;
-                i_type = j;
-                
                 for (huff = 1; huff >= 0; huff-- )
                     for (compr = 1; compr >= 0; compr--)
                         arr[huff][compr] += testAlgo();
@@ -52,7 +49,8 @@ void Tester::test()
             {
                 for (compr = 1; compr >= 0; compr--)
                 {
-                    ticks = arr[huff][compr]/times_to_generate;
+                    ticks = arr[huff][compr]/times;
+                    ticks /= 1000000;
                     save_info_1();
                     save_info_2();
                     save_info_3();
@@ -73,15 +71,15 @@ long Tester::testAlgo()
         if (huff)
         {
             if (compr)
-                Huffman::compress(text_temp, text_temp);
+                Huffman::compress(text_path);
             else
-                Huffman::decompress(text_temp, text_temp);
+                Huffman::decompress(text_path);
         }else
         {
             if (compr)
-                Shannon_Fano::compress(text_temp, text_temp);
+                Shannon_Fano::compress(text_path);
             else
-                Shannon_Fano::decompress(text_temp, text_temp);
+                Shannon_Fano::decompress(text_path);
         }
         
         ticks += Timer::get_last_ticks();
@@ -103,7 +101,7 @@ void Tester::save_info_1()
     name << (i_size < 5 ? "small" : "big");
     if ((i_size == 0 || i_size == 5) && i_type == 1)
     {
-        res << "bytes / type" << "," << 1 << "," << 2 << "," << 3;
+        res << "kB / type" << "," << "набор 1" << "," << "набор 2" << "," << "набор 3";
     }
     if (i_type == 1)
     {
@@ -124,7 +122,7 @@ void Tester::save_info_2()
     name << (i_size < 5 ? "small" : "big");
     if ((i_size == 0 || i_size == 5) && huff)
     {
-        res << "bytes / algo" << "," << "Huffman" << "," << "Shannon";
+        res << "kB / algo" << "," << "Huffman" << "," << "Shannon";
     }
     if (huff)
     {
@@ -176,7 +174,4 @@ void Tester::save_csv(string name)
     out << csv[name];
     
     out.close();
-    
-    csv_info = "";
-    
 }
