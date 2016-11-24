@@ -16,6 +16,8 @@ class Shannon_Fano : public Huffman
     
 public:
     
+    static void delete_all(string filename);
+    
     static void compress(string filename);
     
     static void decompress(string filename);

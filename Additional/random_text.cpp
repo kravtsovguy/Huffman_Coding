@@ -33,6 +33,8 @@ void Random_Text::generate_text(string symbols, int size)
         }
     }
 
+    text = "";
+    
     while (text.size() < size)
     {
         int index = rand() % symbols.size();
@@ -95,7 +97,7 @@ void Random_Text::save_to_file(string filename)
 
 void Random_Text::generate_and_save(int type, int size, string filename)
 {
-    Random_Text* rt = new Random_Text();
-    rt->generate_text(type, size);
-    rt->save_to_file(filename);
+    Random_Text rt;
+    rt.generate_text(type, size);
+    rt.save_to_file(filename);
 }

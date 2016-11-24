@@ -14,7 +14,23 @@
 #include <map>
 #include <vector>
 #include "timer.h"
+#include <cstdio>
 using namespace std;
+
+void Huffman::delete_all(string filename)
+{
+    Huffman(filename).delete_all_files();
+}
+
+void Huffman::decompress(string filename)
+{
+    Huffman(filename).save_decoded();
+}
+
+void Huffman::compress(string filename)
+{
+    Huffman(filename).save_coded();
+}
 
 vector<bool> string_to_bits(string s)
 {
@@ -168,17 +184,6 @@ void Huffman::save_decoded()
     out.close();
 }
 
-void Huffman::decompress(string filename)
-{
-    Huffman(filename).save_decoded();
-}
-
-
-void Huffman::compress(string filename)
-{
-    Huffman(filename).save_coded();
-}
-
 void Huffman::make_table(string bits, Node* n)
 {
     if (!n->left && !n->left)
@@ -292,4 +297,11 @@ void Huffman::decode_content_from_bits()
             n = head;
         }
     }
+}
+
+void Huffman::delete_all_files()
+{
+    remove((filename+".txt").c_str());
+    remove((filename+ext_coded).c_str());
+    remove((filename+ext_decoded).c_str());
 }

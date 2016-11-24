@@ -18,15 +18,13 @@
 #include <sstream>
 void Tester::test_all()
 {
-    Tester* t = new Tester();
-    
-    t->test();
+    Tester().test();
 }
 
 void Tester::test()
 {
     int size = sizeof(sizes)/sizeof(*sizes);
-    //size = 3;
+    //size = 2;
     for (i_size = 0; i_size < size; i_size++)
     {
         for (i_type = 1; i_type <= 3; i_type++)
@@ -59,6 +57,8 @@ void Tester::test()
             }
         }
     }
+    Huffman::delete_all(text_path);
+    Shannon_Fano::delete_all(text_path);
     
     save_all_csv();
     

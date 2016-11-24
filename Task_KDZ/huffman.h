@@ -44,6 +44,9 @@ protected:
     };
     
 public:
+    static void delete_all(string filename);
+    
+    void delete_all_files();
     
     static void compress(string filename);
     
@@ -99,7 +102,6 @@ private:
     
     void decode_tree();
     
-
 };
 
 

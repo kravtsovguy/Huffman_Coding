@@ -9,11 +9,15 @@
 #include "shannon_fano.h"
 #include <vector>
 
+void Shannon_Fano::delete_all(string filename)
+{
+    Shannon_Fano(filename).delete_all_files();
+}
+
 void Shannon_Fano::decompress(string filename)
 {
     Shannon_Fano(filename).save_decoded();
 }
-
 
 void Shannon_Fano::compress(string filename)
 {
