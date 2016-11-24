@@ -61,6 +61,8 @@ void Tester::test()
     }
     
     save_all_csv();
+    
+    cout << "saved!" << endl;
 }
 
 long Tester::testAlgo()

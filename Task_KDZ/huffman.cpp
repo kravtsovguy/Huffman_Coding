@@ -65,18 +65,28 @@ Huffman::Huffman(string filename)
 
 Huffman::~Huffman()
 {
+    clear_vars();
+}
+
+void Huffman::clear_vars()
+{
+    content = "";
+    coded_tree = "";
+    coded_content = "";
+    v.clear();
+    table.clear();
+    coded_bits.clear();
+
     delete head;
     head = nullptr;
-    table.clear();
 }
 
 void Huffman::code()
 {
+    clear_vars();
+    
     ifstream in(filename+".txt");
-    
-    content = "";
-    coded_tree = "";
-    
+
     char c;
     while (in.get(c))
         content += c;
@@ -84,9 +94,6 @@ void Huffman::code()
     //cout << content << endl;
     make_freq();
     make_tree();
-    
-    
-    table.clear();
     
     if (head)
         make_table("",head);
@@ -114,10 +121,9 @@ void Huffman::save_coded()
 
 void Huffman::decode()
 {
-    ifstream in(filename + ext_coded);
+    clear_vars();
     
-    coded_tree = "";
-    coded_content = "";
+    ifstream in(filename + ext_coded);
     
     int coded_length;
     char c1,c2;
@@ -261,8 +267,6 @@ void Huffman::make_tree()
 
 void Huffman::code_content_to_bits()
 {
-    coded_bits.clear();
-    
     for (int i=0; i<content.size(); i++)
     {
         string bits = table[content[i]];
@@ -273,8 +277,6 @@ void Huffman::code_content_to_bits()
 
 void Huffman::decode_content_from_bits()
 {
-    content = "";
-    
     Node* n = head;
     
     for (int i = 0; i < coded_bits.size(); i++)

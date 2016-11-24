@@ -83,6 +83,8 @@ private:
 
     map<char,string> table;
     
+    void clear_vars();
+    
     void make_freq();
     
     void make_table(string bits, Node* n);
