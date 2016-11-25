@@ -66,7 +66,8 @@ Huffman::Huffman(string filename)
 
 Huffman::~Huffman()
 {
-    clear_vars();
+    delete head;
+    head = nullptr;
 }
 
 void Huffman::clear_vars()
@@ -78,8 +79,7 @@ void Huffman::clear_vars()
     table.clear();
     coded_bits.clear();
 
-    delete head;
-    head = nullptr;
+    Huffman::~Huffman();
 }
 
 void Huffman::code()

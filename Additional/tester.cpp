@@ -20,7 +20,7 @@
 void Tester::test()
 {
     int size = sizeof(sizes)/sizeof(*sizes);
-    size = 2;
+    //size = 2;
     for (i_size = 0; i_size < size; i_size++)
     {
         for (i_type = 1; i_type <= 3; i_type++)
@@ -56,9 +56,9 @@ void Tester::test()
     Huffman(text_path).delete_files();
     Shannon_Fano(text_path).delete_files();
     
-    //save_all_csv();
+    save_all_csv();
     
-    cout << "saved!" << endl;
+    cout << "done!" << endl;
 }
 
 long Tester::testAlgo()
