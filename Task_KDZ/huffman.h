@@ -21,9 +21,10 @@ protected:
     
     class Node
     {
+        
     public:
-        int key;
-        int value;
+        
+        int key, value;
         Node *left = nullptr, *right = nullptr;
         
         Node(int key, int value): key(key), value(value)
@@ -44,63 +45,40 @@ protected:
     };
     
 public:
-    static void delete_all(string filename);
-    
-    void delete_all_files();
-    
-    static void compress(string filename);
-    
-    static void decompress(string filename);
     
     Huffman(string filename);
-    
-    void save_coded();
-    
-    void save_decoded();
-    
     ~Huffman();
+    
+    void delete_files();
+    void compress();
+    void decompress();
     
 protected:
     
-    string ext_coded = ".huff";
-    
-    string ext_decoded = "-unz-h.txt";
-    
-    Node* head = nullptr;
-    
-    vector<Node*> v;
-    
     virtual void make_tree();
+    
+    string ext_coded = ".huff";
+    string ext_decoded = "-unz-h.txt";
+    Node* head = nullptr;
+    vector<Node*> v;
     
 private:
     
-    string filename = "";
-    
-    string content = "";
-    
-    string coded_tree = "";
-    
-    string coded_content = "";
-    
-    vector<bool> coded_bits;
-
-    map<char,string> table;
-    
     void clear_vars();
-    
     void make_freq();
-    
     void make_table(string bits, Node* n);
-    
     void code();
-    
     void decode();
-    
     void code_content_to_bits();
-    
     void decode_content_from_bits();
-    
     void decode_tree();
+    
+    string filename = "";
+    string content = "";
+    string coded_tree = "";
+    string coded_content = "";
+    vector<bool> coded_bits;
+    map<char,string> table;
     
 };
 

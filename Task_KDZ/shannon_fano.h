@@ -16,12 +16,6 @@ class Shannon_Fano : public Huffman
     
 public:
     
-    static void delete_all(string filename);
-    
-    static void compress(string filename);
-    
-    static void decompress(string filename);
-    
     Shannon_Fano(string filename) : Huffman(filename)
     {
         ext_coded = ".shan";
@@ -30,9 +24,11 @@ public:
     }
     
 private:
+    
     Node* make_tree(int l, int r);
     
 protected:
+    
     void make_tree();
     
 };

@@ -16,13 +16,16 @@ class Timer
 {
     
 public:
+    
     static void start();
     static void stop();
     static ull get_last_ticks();
     static void print_last_ticks();
     
 private:
+    
     static ull rdtsc();
+    
     static ull ticks;
     static ull ticks_temp;
 };

@@ -16,15 +16,11 @@
 #include <fstream>
 #include <map>
 #include <sstream>
-void Tester::test_all()
-{
-    Tester().test();
-}
 
 void Tester::test()
 {
     int size = sizeof(sizes)/sizeof(*sizes);
-    //size = 2;
+    size = 2;
     for (i_size = 0; i_size < size; i_size++)
     {
         for (i_type = 1; i_type <= 3; i_type++)
@@ -48,19 +44,19 @@ void Tester::test()
             {
                 for (compr = 1; compr >= 0; compr--)
                 {
-                    ticks = arr[huff][compr]/times;
-                    ticks /= 1000000;
-                    save_info_1();
-                    save_info_2();
-                    save_info_3();
+                    ticks = arr[huff][compr] / (times * 1000000);
+                    save_info(1);
+                    save_info(2);
+                    save_info(3);
                 }
             }
         }
     }
-    Huffman::delete_all(text_path);
-    Shannon_Fano::delete_all(text_path);
     
-    save_all_csv();
+    Huffman(text_path).delete_files();
+    Shannon_Fano(text_path).delete_files();
+    
+    //save_all_csv();
     
     cout << "saved!" << endl;
 }
@@ -74,15 +70,15 @@ long Tester::testAlgo()
         if (huff)
         {
             if (compr)
-                Huffman::compress(text_path);
+                Huffman(text_path).compress();
             else
-                Huffman::decompress(text_path);
+                Huffman(text_path).decompress();
         }else
         {
             if (compr)
-                Shannon_Fano::compress(text_path);
+                Shannon_Fano(text_path).compress();
             else
-                Shannon_Fano::decompress(text_path);
+                Shannon_Fano(text_path).decompress();
         }
         
         ticks += Timer::get_last_ticks();
@@ -92,71 +88,65 @@ long Tester::testAlgo()
     return ticks;
 }
 
-void Tester::save_info_1()
+void Tester::save_info(int type)
 {
     
     stringstream name;
     stringstream res;
     
-    name << "/1/";
-    name << (huff ? "Huffman_" : "Shannon_");
-    name << (compr ? "compression_" : "decompression_");
-    name << (i_size < 5 ? "small" : "big");
-    if ((i_size == 0 || i_size == 5) && i_type == 1)
+    if (type == 1)
     {
-        res << "kB / type" << "," << "набор 1" << "," << "набор 2" << "," << "набор 3";
+        name << "/1/";
+        name << (huff ? "Huffman_" : "Shannon_");
+        name << (compr ? "compression_" : "decompression_");
+        name << (i_size < 5 ? "small" : "big");
+        
+        if ((i_size == 0 || i_size == 5) && i_type == 1)
+        {
+            res << "kB / type" << "," << "набор 1" << "," << "набор 2" << "," << "набор 3";
+        }
+        if (i_type == 1)
+        {
+            res << "\n" << sizes[i_size] / 1000;
+        }
     }
-    if (i_type == 1)
+    
+    if (type == 2)
     {
-        res << "\n" << sizes[i_size]/1000;
+        name << "/2/";
+        name << "type" << i_type << "_";
+        name << (compr ? "compression_" : "decompression_");
+        name << (i_size < 5 ? "small" : "big");
+        
+        if ((i_size == 0 || i_size == 5) && huff)
+        {
+            res << "kB / algo" << "," << "Huffman" << "," << "Shannon";
+        }
+        if (huff)
+        {
+            res << "\n" << sizes[i_size] / 1000;
+        }
     }
-    res << "," << ticks;
-    csv[name.str()] += res.str();
-}
-
-void Tester::save_info_2()
-{
-    stringstream name;
-    stringstream res;
     
-    name << "/2/";
-    name << "type" << i_type << "_";
-    name << (compr ? "compression_" : "decompression_");
-    name << (i_size < 5 ? "small" : "big");
-    if ((i_size == 0 || i_size == 5) && huff)
+    if (type == 3)
     {
-        res << "kB / algo" << "," << "Huffman" << "," << "Shannon";
+        if (i_size != 7)
+            return;
+        
+        name << "/3/";
+        name << (compr ? "compression_" : "decompression_");
+        name << sizes[i_size] / 1000 << "kB" ;
+        
+        if (i_type == 1 && huff)
+        {
+            res << "type / algo" << "," << "Huffman" << "," << "Shannon";
+        }
+        if (huff)
+        {
+            res << "\n" << i_type;
+        }
     }
-    if (huff)
-    {
-        res << "\n" << sizes[i_size]/1000;
-    }
-    res << "," << ticks;
-    csv[name.str()] += res.str();
-}
-
-void Tester::save_info_3()
-{
     
-    stringstream name;
-    stringstream res;
-    
-    if (i_size != 7)
-        return;
-    
-    name << "/3/";
-    name << (compr ? "compression_" : "decompression_");
-    name << sizes[i_size]/1000 << "kB" ;
-    
-    
-    if (i_type == 1 && huff)
-    {
-        res << "type / algo" << "," << "Huffman" << "," << "Shannon";
-    }
-    if (huff)
-    {
-        res << "\n" << i_type;
-    }
     res << "," << ticks;
     csv[name.str()] += res.str();
 }

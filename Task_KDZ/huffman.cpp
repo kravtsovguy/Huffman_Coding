@@ -17,21 +17,6 @@
 #include <cstdio>
 using namespace std;
 
-void Huffman::delete_all(string filename)
-{
-    Huffman(filename).delete_all_files();
-}
-
-void Huffman::decompress(string filename)
-{
-    Huffman(filename).save_decoded();
-}
-
-void Huffman::compress(string filename)
-{
-    Huffman(filename).save_coded();
-}
-
 vector<bool> string_to_bits(string s)
 {
     vector<bool> v;
@@ -112,13 +97,13 @@ void Huffman::code()
     make_tree();
     
     if (head)
-        make_table("",head);
+        make_table("", head);
     
     code_content_to_bits();
     coded_content = bits_to_string(coded_bits);
 }
 
-void Huffman::save_coded()
+void Huffman::compress()
 {
     Timer::start();
     
@@ -142,7 +127,7 @@ void Huffman::decode()
     ifstream in(filename + ext_coded);
     
     int coded_length;
-    char c1,c2;
+    char c1, c2;
     
     while (true)
     {
@@ -171,7 +156,7 @@ void Huffman::decode()
     //cout << content << endl;
 }
 
-void Huffman::save_decoded()
+void Huffman::decompress()
 {
     Timer::start();
     
@@ -188,7 +173,7 @@ void Huffman::make_table(string bits, Node* n)
 {
     if (!n->left && !n->left)
     {
-        coded_tree +="1"+string(1,n->value);
+        coded_tree += "1" + string(1,n->value);
         table[n->value] = bits;
         
         if (head == n)
@@ -197,8 +182,8 @@ void Huffman::make_table(string bits, Node* n)
         return;
     }
     
-    make_table(bits+"0", n->left);
-    make_table(bits+"1", n->right);
+    make_table(bits + "0", n->left);
+    make_table(bits + "1", n->right);
     coded_tree += "0";
 }
 
@@ -206,7 +191,7 @@ void Huffman::decode_tree()
 {
     v.clear();
     
-    for (int i=0; i<coded_tree.size(); i++)
+    for (int i = 0; i < coded_tree.size(); i++)
     {
         if(coded_tree[i] == '1')
         {
@@ -272,10 +257,10 @@ void Huffman::make_tree()
 
 void Huffman::code_content_to_bits()
 {
-    for (int i=0; i<content.size(); i++)
+    for (int i = 0; i < content.size(); i++)
     {
         string bits = table[content[i]];
-        for (int j=0; j<bits.size(); j++)
+        for (int j = 0; j < bits.size(); j++)
             coded_bits.push_back(bits[j] == '1');
     }
 }
@@ -299,7 +284,7 @@ void Huffman::decode_content_from_bits()
     }
 }
 
-void Huffman::delete_all_files()
+void Huffman::delete_files()
 {
     remove((filename+".txt").c_str());
     remove((filename+ext_coded).c_str());

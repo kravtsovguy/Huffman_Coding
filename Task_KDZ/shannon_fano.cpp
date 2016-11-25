@@ -9,21 +9,6 @@
 #include "shannon_fano.h"
 #include <vector>
 
-void Shannon_Fano::delete_all(string filename)
-{
-    Shannon_Fano(filename).delete_all_files();
-}
-
-void Shannon_Fano::decompress(string filename)
-{
-    Shannon_Fano(filename).save_decoded();
-}
-
-void Shannon_Fano::compress(string filename)
-{
-    Shannon_Fano(filename).save_coded();
-}
-
 Shannon_Fano::Node* Shannon_Fano::make_tree(int l, int r)
 {
     if(l == r)
@@ -35,11 +20,11 @@ Shannon_Fano::Node* Shannon_Fano::make_tree(int l, int r)
     Node* n = new Node(-1,-1);
     
     int freq = 0;
-    for (int i=l; i<r; i++)
+    for (int i = l; i < r; i++)
         freq += v[i]->key;
     
     int freq_current = 0;
-    for (int i=l; i<=r; i++)
+    for (int i = l; i <= r; i++)
     {
         if (freq_current * 2 >= freq)
         {
@@ -47,7 +32,8 @@ Shannon_Fano::Node* Shannon_Fano::make_tree(int l, int r)
             n->right = make_tree(i, r);
             break;
         }
-        if (i<r)
+        
+        if (i < r)
             freq_current += v[i]->key;
     }
     return n;
