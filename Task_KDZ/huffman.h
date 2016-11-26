@@ -72,6 +72,8 @@ private:
     void code_content_to_bits();
     void decode_content_from_bits();
     void decode_tree();
+    void string_to_bits();
+    void bits_to_string();
     
     string filename = "";
     string content = "";

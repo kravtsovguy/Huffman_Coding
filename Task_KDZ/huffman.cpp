@@ -17,51 +17,43 @@
 #include <cstdio>
 using namespace std;
 
-vector<bool> string_to_bits(string s)
+void Huffman::string_to_bits()
 {
-    vector<bool> v;
-    for (int i = 0; i < s.size(); i++) {
-        //cout << (int)(unsigned char)s[i] << " ";
-        char c = s[i];
+    for (int i = 0; i < coded_content.size(); i++)
+    {
+        char c = coded_content[i];
         for (int j = 0; j < 8; j++)
         {
             int bit = (c >> (7 - j)) & 1;
-            v.push_back(bit == 1);
+            coded_bits.push_back(bit == 1);
         }
     }
-    //cout << endl;
-    return v;
 }
 
-string bits_to_string(vector<bool> bits)
+void Huffman::bits_to_string()
 {
-    while (bits.size() % 8 != 0)
-        bits.push_back(false);
-    
-    string res = "";
+    while (coded_bits.size() % 8 != 0)
+        coded_bits.push_back(false);
     
     char currbyte = 0;
     int bitcount = 0;
     
-    for (int i=0; i < bits.size(); i++) {
-        currbyte = currbyte << 1 | bits[i];
+    for (int i = 0; i < coded_bits.size(); i++)
+    {
+        currbyte = currbyte << 1 | coded_bits[i];
         bitcount++;
         if (bitcount == 8)
         {
-            //cout << (int)(unsigned char)currbyte << " ";
-            res += currbyte;
+            coded_content += currbyte;
             bitcount = 0;
             currbyte = 0;
         }
     }
-    //cout << endl;
-    return res;
 }
 
 Huffman::Huffman(string filename)
 {
     this->filename = filename;
-    //cout << fileName << endl;
 }
 
 Huffman::~Huffman()
@@ -92,7 +84,6 @@ void Huffman::code()
     while (in.get(c))
         content += c;
     
-    //cout << content << endl;
     make_freq();
     make_tree();
     
@@ -100,7 +91,7 @@ void Huffman::code()
         make_table("", head);
     
     code_content_to_bits();
-    coded_content = bits_to_string(coded_bits);
+    bits_to_string();
 }
 
 void Huffman::compress()
@@ -147,13 +138,12 @@ void Huffman::decode()
     
     decode_tree();
     
-    coded_bits = string_to_bits(coded_content);
+    string_to_bits();
     
     while (coded_bits.size() > coded_length)
         coded_bits.pop_back();
     
     decode_content_from_bits();
-    //cout << content << endl;
 }
 
 void Huffman::decompress()

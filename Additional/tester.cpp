@@ -163,8 +163,6 @@ void Tester::save_all_csv()
 void Tester::save_csv(string name)
 {
     ofstream out(csv_path + name + ".csv");
-    
     out << csv[name];
-    
     out.close();
 }
