@@ -16,8 +16,6 @@ using namespace std;
 
 void Random_Text::generate_text(string symbols, int size)
 {
-    srand(unsigned(time(0)));
-    
     char additional[symbols.size()];
     
     for (int i = 0; i < symbols.size(); i++)
@@ -83,7 +81,7 @@ void Random_Text::generate_text(int type, int size)
 
 void Random_Text::save_to_file(string filename)
 {
-    ofstream out(filename);
+    ofstream out(filename + ".txt");
     out << text;
     out.close();
 }

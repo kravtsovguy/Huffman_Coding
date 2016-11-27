@@ -26,7 +26,8 @@ private:
     void save_all_csv();
     long testAlgo();
     
-    string text_path = "Tester/Temp/text";
+    string text_path = "Tester/Temp/";
+    string text_name = "";
     string csv_path = "Tester/CSV/";
     int sizes[8] = {20000, 40000, 60000, 80000, 100000, 1000000, 2000000, 3000000};
     map<string,string> csv;

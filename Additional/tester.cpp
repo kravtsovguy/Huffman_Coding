@@ -31,13 +31,21 @@ void Tester::test()
             
             for (int i_times = 0; i_times < times; i_times++)
             {
-                cout << i_size << " " << i_type << " " << i_times << endl;
-                Random_Text::generate_and_save(i_type, sizes[i_size], text_path + ".txt");
+                cout << i_size << " " << i_type << " " << i_times + 1 << endl;
 
+                stringstream name;
+                name << "text_";
+                name << sizes[i_size]/1000 << "kB" << "_" << "type" << i_type << "_" << i_times + 1;
+                text_name = name.str();
+                
+                Random_Text::generate_and_save(i_type, sizes[i_size], text_path + text_name);
+                
                 for (huff = 1; huff >= 0; huff-- )
                     for (compr = 1; compr >= 0; compr--)
                         arr[huff][compr] += testAlgo();
                 
+                Huffman(text_path + text_name).delete_files();
+                Shannon_Fano(text_path + text_name).delete_files();
             }
             
             for (huff = 1; huff >= 0; huff-- )
@@ -53,9 +61,6 @@ void Tester::test()
         }
     }
     
-    Huffman(text_path).delete_files();
-    Shannon_Fano(text_path).delete_files();
-    
     save_all_csv();
     
     cout << "done!" << endl;
@@ -69,16 +74,18 @@ long Tester::testAlgo()
     {
         if (huff)
         {
+            Huffman huff(text_path + text_name);
             if (compr)
-                Huffman(text_path).compress();
+                huff.compress();
             else
-                Huffman(text_path).decompress();
+                huff.decompress();
         }else
         {
+            Shannon_Fano shan(text_path + text_name);
             if (compr)
-                Shannon_Fano(text_path).compress();
+                shan.compress();
             else
-                Shannon_Fano(text_path).decompress();
+                shan.decompress();
         }
         
         ticks += Timer::get_last_ticks();

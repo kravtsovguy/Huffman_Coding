@@ -71,7 +71,8 @@ void Huffman::clear_vars()
     table.clear();
     coded_bits.clear();
 
-    Huffman::~Huffman();
+    delete head;
+    head = nullptr;
 }
 
 void Huffman::code()
@@ -276,7 +277,7 @@ void Huffman::decode_content_from_bits()
 
 void Huffman::delete_files()
 {
-    remove((filename+".txt").c_str());
+    //remove((filename+".txt").c_str());
     remove((filename+ext_coded).c_str());
     remove((filename+ext_decoded).c_str());
 }
