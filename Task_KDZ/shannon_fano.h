@@ -16,7 +16,7 @@ class Shannon_Fano : public Huffman
     
 public:
     
-    Shannon_Fano(string filename) : Huffman(filename)
+    Shannon_Fano(const string& filename) : Huffman(filename)
     {
         ext_coded = ".shan";
         

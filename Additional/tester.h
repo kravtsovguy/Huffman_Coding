@@ -22,7 +22,7 @@ public:
 private:
     
     void save_info(int type);
-    void save_csv(string name);
+    void save_csv(const string& name);
     void save_all_csv();
     long testAlgo();
     

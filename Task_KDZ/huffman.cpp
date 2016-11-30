@@ -51,7 +51,7 @@ void Huffman::bits_to_string()
     }
 }
 
-Huffman::Huffman(string filename)
+Huffman::Huffman(const string& filename)
 {
     this->filename = filename;
 }
@@ -121,7 +121,7 @@ void Huffman::decode()
     int coded_length;
     char c1, c2;
     
-    while (true)
+    while (!in.eof())
     {
         in.get(c1);
         c2 = in.peek();
@@ -160,7 +160,7 @@ void Huffman::decompress()
     out.close();
 }
 
-void Huffman::make_table(string bits, Node* n)
+void Huffman::make_table(const string& bits, Node* n)
 {
     if (!n->left && !n->left)
     {
@@ -277,7 +277,6 @@ void Huffman::decode_content_from_bits()
 
 void Huffman::delete_files()
 {
-    //remove((filename+".txt").c_str());
     remove((filename+ext_coded).c_str());
     remove((filename+ext_decoded).c_str());
 }

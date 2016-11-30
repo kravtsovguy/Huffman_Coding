@@ -46,7 +46,7 @@ protected:
     
 public:
     
-    Huffman(string filename);
+    Huffman(const string& filename);
     ~Huffman();
     
     void delete_files();
@@ -66,7 +66,7 @@ private:
     
     void clear_vars();
     void make_freq();
-    void make_table(string bits, Node* n);
+    void make_table(const string& bits, Node* n);
     void code();
     void decode();
     void code_content_to_bits();

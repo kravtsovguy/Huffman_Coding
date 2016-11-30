@@ -20,7 +20,7 @@
 void Tester::test()
 {
     int size = sizeof(sizes)/sizeof(*sizes);
-    //size = 2;
+
     for (i_size = 0; i_size < size; i_size++)
     {
         for (i_type = 1; i_type <= 3; i_type++)
@@ -167,7 +167,7 @@ void Tester::save_all_csv()
     }
 }
 
-void Tester::save_csv(string name)
+void Tester::save_csv(const string& name)
 {
     ofstream out(csv_path + name + ".csv");
     out << csv[name];

@@ -17,12 +17,12 @@ class Random_Text
     
 public:
     
-    static void generate_and_save(int type, int size, string filename);
+    static void generate_and_save(int type, int size, const string& filename);
     
     string get_chars(int type);
     void generate_text(int type, int size);
     void generate_text(string symbols, int size);
-    void save_to_file(string filename);
+    void save_to_file(const string& filename);
     
     string text = "";
 };

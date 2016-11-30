@@ -79,14 +79,14 @@ void Random_Text::generate_text(int type, int size)
     generate_text(get_chars(type), size);
 }
 
-void Random_Text::save_to_file(string filename)
+void Random_Text::save_to_file(const string& filename)
 {
     ofstream out(filename + ".txt");
     out << text;
     out.close();
 }
 
-void Random_Text::generate_and_save(int type, int size, string filename)
+void Random_Text::generate_and_save(int type, int size, const string& filename)
 {
     Random_Text rt;
     rt.generate_text(type, size);
