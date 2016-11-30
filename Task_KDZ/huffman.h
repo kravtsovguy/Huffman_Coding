@@ -79,6 +79,7 @@ private:
     string content = "";
     string coded_tree = "";
     string coded_content = "";
+    size_t coded_length = 0;
     vector<bool> coded_bits;
     map<char,string> table;
     

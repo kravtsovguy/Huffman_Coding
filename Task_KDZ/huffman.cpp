@@ -67,6 +67,7 @@ void Huffman::clear_vars()
     content = "";
     coded_tree = "";
     coded_content = "";
+    coded_length = 0;
     v.clear();
     table.clear();
     coded_bits.clear();
@@ -92,6 +93,9 @@ void Huffman::code()
         make_table("", head);
     
     code_content_to_bits();
+    
+    coded_length = coded_bits.size();
+    
     bits_to_string();
 }
 
@@ -107,7 +111,7 @@ void Huffman::compress()
     
     out << coded_tree << "\n";
     out << "\n";
-    out << coded_bits.size() << "\n";
+    out << coded_length << "\n";
     out << coded_content;
     out.close();
 }
@@ -118,16 +122,16 @@ void Huffman::decode()
     
     ifstream in(filename + ext_coded);
     
-    int coded_length;
     char c1, c2;
     
-    while (!in.eof())
+    while (in.get(c1))
     {
-        in.get(c1);
-        c2 = in.peek();
-        if (c1 == '\n' && c2== '\n')
-            break;
-        
+        if (c1 == '\n')
+        {
+            c2 = in.peek();
+            if (c1 == '\n' && c2== '\n')
+                break;
+        }
         coded_tree += c1;
     }
     

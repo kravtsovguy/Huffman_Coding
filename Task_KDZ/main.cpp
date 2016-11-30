@@ -26,11 +26,54 @@
 #include "tester.h"
 #include <unistd.h>
 
+
 using namespace std;
+
+void show_usage()
+{
+    cerr << "Usage: " << "\n"
+    << "Options:\n"
+    << "\t--huffman\t\t Huffman algorithm\n"
+    << "\t--shannon\t\t Shannon-Fano algorithm\n"
+    << "\t--decompress\t Decompress file\n"
+    << "next argument is PATH to file\n"
+    << "or:\n"
+    << "\t--test\t\t Start testing (for testing you need some folders)\n"
+    << endl;
+}
 
 int main(int argc, const char * argv[])
 {
-    Tester().test();
-
+    srand((unsigned int)time(0));
+    
+    if (argc == 1)
+    {
+        show_usage();
+        return 1;
+    }
+    if (argc == 2)
+    {
+        if(string(argv[1]) == "--test")
+        {
+            Tester().test();
+        }
+    }
+    if (argc == 3)
+    {
+        if(string(argv[1]) == "--huffman")
+        {
+            Huffman(argv[2]).compress();
+        }
+        if(string(argv[1]) == "--shannon")
+        {
+            Shannon_Fano(argv[2]).compress();
+        }
+        if(string(argv[1]) == "--decompress")
+        {
+            Huffman(argv[2]).decompress();
+        }
+        cout << "done!" << endl;
+    }
+    
     return 0;
 }
