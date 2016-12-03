@@ -17,38 +17,65 @@
 #include <cstdio>
 using namespace std;
 
-void Huffman::string_to_bits()
+void Huffman::write_all(const string &path, const string &str)
 {
-    for (int i = 0; i < coded_content.size(); i++)
-    {
-        char c = coded_content[i];
-        for (int j = 0; j < 8; j++)
-        {
-            int bit = (c >> (7 - j)) & 1;
-            coded_bits.push_back(bit == 1);
-        }
-    }
+    ofstream out(path, ios::binary);
+    out.write(str.c_str(), str.length());
+    out.close();
 }
 
-void Huffman::bits_to_string()
+void Huffman::read_all(const string &path, string &str)
 {
-    while (coded_bits.size() % 8 != 0)
-        coded_bits.push_back(false);
+    ifstream in(path, ios::binary);
+    
+    in.seekg (0, in.end);
+    size_t length = in.tellg();
+    in.seekg (0, in.beg);
+    
+    str = string(length,0);
+    in.read (&str[0],length);
+    
+    in.close();
+}
+
+vector<bool> Huffman::string_to_bits(const string& str)
+{
+    vector<bool> bits;
+    
+    for (int i = 0; i < str.size(); i++)
+    {
+        for (int i_bit = 0; i_bit < 8; i_bit++)
+        {
+            int bit = str[i] & (1 << (7 - i_bit));
+            bits.push_back(bit);
+        }
+    }
+    return bits;
+}
+
+string Huffman::bits_to_string(const vector<bool>& bits)
+{
+    string str;
     
     char currbyte = 0;
-    int bitcount = 0;
+    int i_bit = 0;
     
-    for (int i = 0; i < coded_bits.size(); i++)
+    for (int i = 0; i < bits.size(); i++)
     {
-        currbyte = currbyte << 1 | coded_bits[i];
-        bitcount++;
-        if (bitcount == 8)
+        if (bits[i])
+            currbyte |= 1 << (7 - i_bit);
+        
+        i_bit++;
+        
+        if (i_bit == 8 || i + 1 == bits.size())
         {
-            coded_content += currbyte;
-            bitcount = 0;
+            str += currbyte;
+            i_bit = 0;
             currbyte = 0;
         }
     }
+    
+    return str;
 }
 
 Huffman::Huffman(const string& filename)
@@ -65,155 +92,69 @@ Huffman::~Huffman()
 void Huffman::clear_vars()
 {
     content = "";
-    coded_tree = "";
     coded_content = "";
-    coded_length = 0;
     v.clear();
     table.clear();
     coded_bits.clear();
-
+    
     delete head;
     head = nullptr;
 }
 
 void Huffman::code()
 {
-    clear_vars();
+    code_tree();
     
-    ifstream in(filename+".txt");
-
-    char c;
-    while (in.get(c))
-        content += c;
+    code_content();
     
-    make_freq();
-    make_tree();
+    code_excess();
     
-    if (head)
-        make_table("", head);
-    
-    code_content_to_bits();
-    
-    coded_length = coded_bits.size();
-    
-    bits_to_string();
+    coded_content =  bits_to_string(coded_bits);
 }
 
 void Huffman::compress()
 {
+    clear_vars();
+    
+    read_all(filename + ".txt", content);
+    
     Timer::start();
     
     code();
     
     Timer::stop();
     
-    ofstream out(filename + ext_coded);
-    
-    out << coded_tree << "\n";
-    out << "\n";
-    out << coded_length << "\n";
-    out << coded_content;
-    out.close();
+    write_all(filename + ext_coded, coded_content);
 }
 
 void Huffman::decode()
 {
-    clear_vars();
+    coded_bits = string_to_bits(coded_content);
     
-    ifstream in(filename + ext_coded);
-    
-    char c1, c2;
-    
-    while (in.get(c1))
-    {
-        if (c1 == '\n')
-        {
-            c2 = in.peek();
-            if (c1 == '\n' && c2== '\n')
-                break;
-        }
-        coded_tree += c1;
-    }
-    
-    in >> coded_length;
-    in.get();
-    
-    while (in.get(c1))
-        coded_content += c1;
-    
+    decode_excess();
+
     decode_tree();
-    
-    string_to_bits();
-    
-    while (coded_bits.size() > coded_length)
-        coded_bits.pop_back();
-    
-    decode_content_from_bits();
+
+    decode_content();
 }
 
 void Huffman::decompress()
 {
+    clear_vars();
+    
+    read_all(filename + ext_coded, coded_content);
+    
     Timer::start();
     
     decode();
     
     Timer::stop();
     
-    ofstream out(filename+ext_decoded);
-    out << content;
-    out.close();
-}
-
-void Huffman::make_table(const string& bits, Node* n)
-{
-    if (!n->left && !n->left)
-    {
-        coded_tree += "1" + string(1,n->value);
-        table[n->value] = bits;
-        
-        if (head == n)
-            table[n->value] = "0";
-        
-        return;
-    }
-    
-    make_table(bits + "0", n->left);
-    make_table(bits + "1", n->right);
-    coded_tree += "0";
-}
-
-void Huffman::decode_tree()
-{
-    v.clear();
-    
-    for (int i = 0; i < coded_tree.size(); i++)
-    {
-        if(coded_tree[i] == '1')
-        {
-            i++;
-            v.push_back(new Node(-1, coded_tree[i]));
-            continue;
-        }
-        Node* n1 = v.back();
-        v.pop_back();
-        Node* n2 = v.back();
-        v.pop_back();
-        Node* n = new Node(-1,-1);
-        n->left = n2;
-        n->right = n1;
-        v.push_back(n);
-    }
-    
-    if (v.size() == 0)
-        return;
-    
-    head = v[0];
+    write_all(filename+ext_decoded, content);
 }
 
 void Huffman::make_freq()
 {
-    v.clear();
-    
     map<char,int> freq;
     
     for (int i = 0; i < content.size(); i++)
@@ -250,7 +191,76 @@ void Huffman::make_tree()
     head = v[0];
 }
 
-void Huffman::code_content_to_bits()
+void Huffman::make_table(const string& bits, Node* n)
+{
+    if (!n->left && !n->left)
+    {
+        coded_bits.push_back(true);
+        
+        vector<bool> b = string_to_bits(string(1,n->value));
+        coded_bits.insert(coded_bits.end(), b.begin(), b.end());
+        
+        table[n->value] = bits;
+        
+        if (head == n)
+            table[n->value] = "0";
+        
+        return;
+    }
+    
+    make_table(bits + "0", n->left);
+    make_table(bits + "1", n->right);
+    coded_bits.push_back(false);
+}
+
+void Huffman::code_tree()
+{
+    make_freq();
+    make_tree();
+    
+    if (head)
+    {
+        make_table("", head);
+        coded_bits.push_back(false);
+    }
+}
+
+void Huffman::decode_tree()
+{
+    for (; pos < coded_bits.size(); pos++)
+    {
+        if(coded_bits[pos])
+        {
+            vector<bool> b(&coded_bits[pos + 1], &coded_bits[pos + 1 + 8]);
+            v.push_back(new Node(-1, bits_to_string(b)[0]));
+            
+            pos += 8;
+            continue;
+        }
+        
+        if (v.size() == 1)
+        {
+            pos++;
+            break;
+        }
+        
+        Node* n1 = v.back();
+        v.pop_back();
+        Node* n2 = v.back();
+        v.pop_back();
+        Node* n = new Node(-1,-1);
+        n->left = n2;
+        n->right = n1;
+        v.push_back(n);
+    }
+    
+    if (v.size() == 0)
+        return;
+    
+    head = v[0];
+}
+
+void Huffman::code_content()
 {
     for (int i = 0; i < content.size(); i++)
     {
@@ -260,23 +270,50 @@ void Huffman::code_content_to_bits()
     }
 }
 
-void Huffman::decode_content_from_bits()
+void Huffman::decode_content()
 {
     Node* n = head;
     
-    for (int i = 0; i < coded_bits.size(); i++)
+    for (; pos < coded_bits.size(); pos++)
     {
         if(n->left && n->right)
         {
-            n = coded_bits[i] ? n->right : n->left;
+            n = coded_bits[pos] ? n->right : n->left;
         }
     
         if (!n->left && !n->left)
         {
-            content+=string(1,n->value);
+            content += string(1,n->value);
             n = head;
         }
     }
+}
+
+void Huffman::code_excess()
+{
+    if (!coded_bits.size())
+        return;
+    
+    char coded_excess = (8 - (coded_bits.size()) % 8) % 8;
+    
+    vector<bool> b = string_to_bits(string(1,coded_excess));
+    coded_bits.insert(coded_bits.begin(), b.end() - 3, b.end());
+}
+
+void Huffman::decode_excess()
+{
+    if (!coded_bits.size())
+        return;
+    
+    //vector<bool> b(5);
+    //b.insert(&b[5],&coded_bits[0],&coded_bits[3]);
+    vector<bool> b(&coded_bits[0], &coded_bits[8]);
+    char coded_excess =  bits_to_string(b)[0];
+    
+    pos+=8;
+    
+    while (coded_excess--)
+        coded_bits.pop_back();
 }
 
 void Huffman::delete_files()

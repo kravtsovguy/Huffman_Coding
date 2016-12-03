@@ -29,6 +29,15 @@
 
 using namespace std;
 
+void show_path_info()
+{
+    cerr << "please, use path without an extention\n"
+    << "for native text file the extention is '.txt'\n"
+    << "for compressed file the extention is '.huff' or '.shan'\n"
+    << "decompressed file ends at '-unz-h.txt' or '-unz-s.txt'\n"
+    << endl;
+}
+
 void show_usage()
 {
     cerr << "Usage: " << "\n"
@@ -36,15 +45,23 @@ void show_usage()
     << "\t--huffman\t\t Huffman algorithm\n"
     << "\t--shannon\t\t Shannon-Fano algorithm\n"
     << "\t--decompress\t Decompress file\n"
-    << "next argument is PATH to file\n"
-    << "or:\n"
+    << "next argument is a PATH to file WITHOUT AN EXTENTION\n"
+    << "or the option:\n"
     << "\t--test\t\t Start testing (for testing you need some folders)\n"
+    << "-------------------\n"
+    << "remark:"
     << endl;
+    show_path_info();
 }
 
 int main(int argc, const char * argv[])
 {
     srand((unsigned int)time(0));
+    
+    //char c = char(2);
+    Random_Text::generate_and_save(3, 300, "text");
+    Huffman("text").compress();
+    Huffman("text").decompress();
     
     if (argc == 1)
     {
@@ -60,6 +77,11 @@ int main(int argc, const char * argv[])
     }
     if (argc == 3)
     {
+        if (string(argv[2]).find('.') != string::npos)
+        {
+            show_path_info();
+            return 1;
+        }
         if(string(argv[1]) == "--huffman")
         {
             Huffman(argv[2]).compress();

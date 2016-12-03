@@ -24,10 +24,11 @@ protected:
         
     public:
         
-        int key, value;
+        int key;
+        char value;
         Node *left = nullptr, *right = nullptr;
         
-        Node(int key, int value): key(key), value(value)
+        Node(int key, char value): key(key), value(value)
         {}
         
         ~Node()
@@ -38,7 +39,7 @@ protected:
             right = nullptr;
         }
 
-        static bool greater( Node* n1, Node* n2 )
+        static bool greater(const Node* n1, const Node* n2 )
         {
             return n1->key > n2->key;
         }
@@ -48,10 +49,11 @@ public:
     
     Huffman(const string& filename);
     ~Huffman();
-    
-    void delete_files();
+
     void compress();
     void decompress();
+    
+    void delete_files();
     
 protected:
     
@@ -59,27 +61,39 @@ protected:
     
     string ext_coded = ".huff";
     string ext_decoded = "-unz-h.txt";
+    
     Node* head = nullptr;
     vector<Node*> v;
     
 private:
     
     void clear_vars();
+    
     void make_freq();
     void make_table(const string& bits, Node* n);
+    
     void code();
     void decode();
-    void code_content_to_bits();
-    void decode_content_from_bits();
-    void decode_tree();
-    void string_to_bits();
-    void bits_to_string();
     
+    void code_content();
+    void code_tree();
+    void code_excess();
+    
+    void decode_content();
+    void decode_tree();
+    void decode_excess();
+    
+    vector<bool> string_to_bits(const string& str);
+    string bits_to_string(const vector<bool>& bits);
+    
+    void read_all(const string& path, string& str);
+    void write_all(const string& path,const string& str);
+
+    
+    int pos = 0;
     string filename = "";
     string content = "";
-    string coded_tree = "";
     string coded_content = "";
-    size_t coded_length = 0;
     vector<bool> coded_bits;
     map<char,string> table;
     
