@@ -15,18 +15,16 @@
 #include <vector>
 #include "timer.h"
 #include <cstdio>
+#include <stdexcept>
+#include <sstream>
 using namespace std;
-
-void Huffman::write_all(const string &path, const string &str)
-{
-    ofstream out(path, ios::binary);
-    out.write(str.c_str(), str.length());
-    out.close();
-}
 
 void Huffman::read_all(const string &path, string &str)
 {
     ifstream in(path, ios::binary);
+    
+    if (!in.is_open())
+        throw logic_error("File doesn't exist");
     
     in.seekg (0, in.end);
     size_t length = in.tellg();
@@ -36,6 +34,18 @@ void Huffman::read_all(const string &path, string &str)
     in.read (&str[0],length);
     
     in.close();
+}
+
+void Huffman::write_all(const string &path, const string &str)
+{
+    ofstream out(path, ios::binary);
+    
+    if (!out.is_open())
+        throw logic_error("Error");
+
+    out.write(str.c_str(), str.length());
+    
+    out.close();
 }
 
 vector<bool> Huffman::string_to_bits(const string& str)
@@ -155,10 +165,10 @@ void Huffman::decompress()
 
 void Huffman::make_freq()
 {
-    map<char,int> freq;
+    map<unsigned char,int> freq;
     
     for (int i = 0; i < content.size(); i++)
-        freq[content[i]]++;
+        freq[(unsigned char)content[i]]++;
     
     while (freq.size())
     {
@@ -166,23 +176,21 @@ void Huffman::make_freq()
         v.push_back(n);
         freq.erase(freq.begin());
     }
-    
-    sort(v.begin(), v.end(), Node::greater);
 }
 
 void Huffman::make_tree()
 {
     while (v.size() > 1)
     {
+        sort(v.begin(), v.end(), Node::greater);
         Node* n1 = v.back();
         v.pop_back();
         Node* n2 = v.back();
         v.pop_back();
         Node* n = new Node(n1->key + n2->key, -1);
-        n->left = n1;
-        n->right = n2;
+        n->left = n2;
+        n->right = n1;
         v.push_back(n);
-        sort(v.begin(), v.end(), Node::greater);
     }
     
     if (v.size() == 0)

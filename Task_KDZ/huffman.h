@@ -83,12 +83,11 @@ private:
     void decode_tree();
     void decode_excess();
     
-    vector<bool> string_to_bits(const string& str);
-    string bits_to_string(const vector<bool>& bits);
+    static vector<bool> string_to_bits(const string& str);
+    static string bits_to_string(const vector<bool>& bits);
     
-    void read_all(const string& path, string& str);
-    void write_all(const string& path,const string& str);
-
+    static void read_all(const string& path, string& str);
+    static void write_all(const string& path,const string& str);
     
     int pos = 0;
     string filename = "";

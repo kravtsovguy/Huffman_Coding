@@ -81,8 +81,13 @@ void Random_Text::generate_text(int type, int size)
 
 void Random_Text::save_to_file(const string& filename)
 {
-    ofstream out(filename + ".txt");
-    out << text;
+    ofstream out(filename + ".txt", ios::binary);
+    
+    if (!out.is_open())
+        throw logic_error("Error");
+    
+    out.write(text.c_str(), text.length());
+    
     out.close();
 }
 
