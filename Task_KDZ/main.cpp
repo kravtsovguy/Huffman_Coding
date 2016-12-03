@@ -58,8 +58,7 @@ int main(int argc, const char * argv[])
 {
     srand((unsigned int)time(0));
     
-    //char c = char(2);
-    Random_Text::generate_and_save(3, 300, "text");
+    Random_Text::generate_and_save(1, 230, "text");
     Huffman("text").compress();
     Huffman("text").decompress();
     

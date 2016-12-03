@@ -291,29 +291,19 @@ void Huffman::decode_content()
 
 void Huffman::code_excess()
 {
-    if (!coded_bits.size())
-        return;
+    char coded_excess = (8 - coded_bits.size() % 8) % 8;
     
-    char coded_excess = (8 - (coded_bits.size() + 3) % 8) % 8;
-    
-    vector<bool> b = string_to_bits(string(1,coded_excess));
-    coded_bits.insert(coded_bits.begin(), b.end() - 3, b.end());
+    vector<bool> b(coded_excess);
+    coded_bits.insert(coded_bits.begin(), b.begin(), b.end());
 }
 
 void Huffman::decode_excess()
 {
-    if (!coded_bits.size())
-        return;
-    
-    vector<bool> b(5);
-    b.insert(&b[5],&coded_bits[0],&coded_bits[3]);
-    
-    char coded_excess =  bits_to_string(b)[0];
-    
-    pos += 3;
-    
-    while (coded_excess--)
-        coded_bits.pop_back();
+    for (; pos < coded_bits.size(); pos++)
+    {
+        if(coded_bits[pos])
+            break;
+    }
 }
 
 void Huffman::delete_files()
