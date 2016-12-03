@@ -58,7 +58,7 @@ int main(int argc, const char * argv[])
 {
     srand((unsigned int)time(0));
     
-    //string path = "UnityEngine";
+    //string path = "text";
     //Random_Text::generate_and_save(1, 230, path);
     //Huffman(path).compress();
     //Huffman(path).decompress();

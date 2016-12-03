@@ -64,9 +64,9 @@
 				BA0D3ADE1DF2FC4D0011AA72 /* timer.h */,
 				BA0C206A1DDDC20B0087DFDE /* huffman.cpp */,
 				BA0C206B1DDDC20B0087DFDE /* huffman.h */,
-				BA0C206C1DDDC20B0087DFDE /* main.cpp */,
 				BA0C206D1DDDC20B0087DFDE /* shannon_fano.cpp */,
 				BA0C206E1DDDC20B0087DFDE /* shannon_fano.h */,
+				BA0C206C1DDDC20B0087DFDE /* main.cpp */,
 			);
 			path = Task_KDZ;
 			sourceTree = "<group>";

@@ -165,10 +165,10 @@ void Huffman::decompress()
 
 void Huffman::make_freq()
 {
-    map<unsigned char,int> freq;
+    map<char,int> freq;
     
     for (int i = 0; i < content.size(); i++)
-        freq[(unsigned char)content[i]]++;
+        freq[content[i]]++;
     
     while (freq.size())
     {
