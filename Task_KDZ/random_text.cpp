@@ -12,6 +12,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
 using namespace std;
 
 void Random_Text::generate_text(string symbols, int size)

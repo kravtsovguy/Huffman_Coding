@@ -25,7 +25,7 @@ protected:
     public:
         
         int key;
-        char value;
+        unsigned char value;
         Node *left = nullptr, *right = nullptr;
         
         Node(int key, char value): key(key), value(value)
@@ -67,34 +67,33 @@ protected:
     
 private:
     
+    static vector<bool> string_to_bits(const string& str);
+    static string bits_to_string(const vector<bool>& bits);
+    
+    static void read_all(const string& path, string& str);
+    static void write_all(const string& path, const string& str);
+    
     void clear_vars();
     
     void make_freq();
     void make_table(const string& bits, Node* n);
     
     void code();
-    void decode();
-    
     void code_content();
     void code_tree();
     void code_excess();
     
+    void decode();
     void decode_content();
     void decode_tree();
     void decode_excess();
-    
-    static vector<bool> string_to_bits(const string& str);
-    static string bits_to_string(const vector<bool>& bits);
-    
-    static void read_all(const string& path, string& str);
-    static void write_all(const string& path,const string& str);
     
     int pos = 0;
     string filename = "";
     string content = "";
     string coded_content = "";
     vector<bool> coded_bits;
-    map<char,string> table;
+    string table[256];
     
 };
 

@@ -14,9 +14,7 @@
 #include <map>
 #include <vector>
 #include "timer.h"
-#include <cstdio>
 #include <stdexcept>
-#include <sstream>
 using namespace std;
 
 void Huffman::read_all(const string &path, string &str)
@@ -104,8 +102,8 @@ void Huffman::clear_vars()
     content = "";
     coded_content = "";
     v.clear();
-    table.clear();
     coded_bits.clear();
+    fill(table, table+256, 0);
     
     delete head;
     head = nullptr;
@@ -165,16 +163,15 @@ void Huffman::decompress()
 
 void Huffman::make_freq()
 {
-    map<char,int> freq;
+    int freq[256] = { 0 };
     
     for (int i = 0; i < content.size(); i++)
-        freq[content[i]]++;
+        freq[(unsigned char)content[i]]++;
     
-    while (freq.size())
+    for(int i = 0; i < 256; i++)
     {
-        Node* n = new Node(freq.begin()->second, freq.begin()->first);
-        v.push_back(n);
-        freq.erase(freq.begin());
+        if (freq[i])
+            v.push_back(new Node(freq[i], i));
     }
 }
 
@@ -192,11 +189,8 @@ void Huffman::make_tree()
         n->right = n1;
         v.push_back(n);
     }
-    
-    if (v.size() == 0)
-        return;
-    
-    head = v[0];
+
+    head = v.size() ? v[0] : nullptr;
 }
 
 void Huffman::make_table(const string& bits, Node* n)
@@ -262,17 +256,14 @@ void Huffman::decode_tree()
         v.push_back(n);
     }
     
-    if (v.size() == 0)
-        return;
-    
-    head = v[0];
+    head = v.size() ? v[0] : nullptr;
 }
 
 void Huffman::code_content()
 {
     for (int i = 0; i < content.size(); i++)
     {
-        string bits = table[content[i]];
+        string bits = table[(unsigned char)content[i]];
         for (int j = 0; j < bits.size(); j++)
             coded_bits.push_back(bits[j] == '1');
     }

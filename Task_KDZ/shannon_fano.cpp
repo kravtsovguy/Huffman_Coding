@@ -41,5 +41,7 @@ Shannon_Fano::Node* Shannon_Fano::make_tree(int l, int r)
 
 void Shannon_Fano::make_tree()
 {
+    sort(v.begin(), v.end(), Node::greater);
+    
     head = make_tree(0, (int)v.size());
 }

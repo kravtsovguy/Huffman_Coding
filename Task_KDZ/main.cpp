@@ -25,7 +25,8 @@
 #include "timer.h"
 #include "tester.h"
 #include <unistd.h>
-
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -58,10 +59,10 @@ int main(int argc, const char * argv[])
 {
     srand((unsigned int)time(0));
     
-    //string path = "text";
-    //Random_Text::generate_and_save(1, 230, path);
-    //Huffman(path).compress();
-    //Huffman(path).decompress();
+    string path = "text";
+    Random_Text::generate_and_save(1,230, path);
+    Huffman(path).compress();
+    Huffman(path).decompress();
     
     if (argc == 1)
     {
