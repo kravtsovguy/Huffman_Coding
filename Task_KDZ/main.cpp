@@ -59,10 +59,14 @@ int main(int argc, const char * argv[])
 {
     srand((unsigned int)time(0));
     
+    /* Usage of code
+     
     string path = "text";
-    Random_Text::generate_and_save(1,230, path);
+    Random_Text::generate_and_save(1, 230, path);
     Huffman(path).compress();
     Huffman(path).decompress();
+     
+     */
     
     if (argc == 1)
     {
